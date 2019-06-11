@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>API Reference Goibibo Flights</title>
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
 
     <style>
       .highlight table td { padding: 5px; }
@@ -201,7 +202,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;json&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,10 +212,7 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="json">json</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -225,220 +223,482 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#flights-api" class="toc-h1 toc-link" data-title="Flights API">Flights API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
-                  </li>
-                  <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
-                  </li>
-                  <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#flight-search-oneway-and-round-trip" class="toc-h2 toc-link" data-title="Flight Search Oneway and Round Trip">Flight Search Oneway and Round Trip</a>
                   </li>
               </ul>
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-goibibo-flight-search-api-uses-the-following-error-codes" class="toc-h2 toc-link" data-title="The Goibibo Flight Search API uses the following error codes:">The Goibibo Flight Search API uses the following error codes:</a>
+                  </li>
+              </ul>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='http://goibibo.github.io/goibibobusinessapi/#!/flights'>Sign Up for a Developer Key Goibibo API</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the Goibibo Flight API You can use our API to access Goibibo Flight API endpoints. Forget about the tedious task to make smart intelligent flight booking flow by making use of our API.</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>Our API ensures the fastest responses to the millions of queries per second. Best in practice deployment strategies helped us to boost the performance of our API. We have designed our API to access the unique needs of your travel business It&#39;s light reliable and quick to integrate with your business.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>Below are the Goibibo Flight API from search to book a flight of your choice, step by step. This documentation is for only B2BRate Flow</p>
+<h1 id='flights-api'>Flights API</h1><h2 id='flight-search-oneway-and-round-trip'>Flight Search Oneway and Round Trip</h2>
+<p>The search API enables you to search for operational flights based on specified parameters i.e. route details departure and arrival dates, cabin type and passenger details. Leave dateofarrival blank if looking for only one way flights(onward flights). </p>
+<h3 id='http-request-example'>HTTP Request Example</h3>
+<p><code>GET ENV/api/search/?format=json&amp;dateofdeparture=20190701&amp;dateofarrival=&amp;source=DEL&amp;destination=DXB&amp;seatingclass=E&amp;adults=1&amp;children=0&amp;infants=0&amp;counter=100</code></p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
-
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: meowmeowmeow</code></p>
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"ArrivalTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"BookabilityValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.77734697</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"CINFO"</span><span class="p">:</span><span class="w"> </span><span class="s2">"air-DEL-DXB-20190701--1-0-0-E-100--"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"CabinClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"CacheKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DELDXB20190701ESG"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"DataSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spicejetnew"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"FilteringValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.011396011000000001</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"FlHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"oSG-11"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"PromotionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"SetTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-11 03:43:06"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"TravelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"aircraftType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"737"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"aircraftTypecode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"189"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Spicejet"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-01t1010"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10:10"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SG"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"codeshare"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-01t0750"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07:50"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DXB"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3h 50m"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"adultbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">7300</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"adulttotalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">8111</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"grossamount"</span><span class="p">:</span><span class="w"> </span><span class="mi">8111</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"totalbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">7300</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"totalcommission"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">8111</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"totalsurcharge"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"farebasis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ASAVER"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"holdflag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"ibibopartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spicejetnew"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"internationalsearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"multicitysearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+                </span><span class="s2">"operatingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"platingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"qtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"rating"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"searchKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:0:0:0:0:7300:0:8111:0:0:0:0:0:0:0:0:8111:7300:8111:0:0:0:0:0:0"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"seatingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"E"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"seatsavailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"splitduration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3h 50m"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"stops"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"warnings"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refundable"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"returnflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Example-Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>format</td>
+<td>xml/json</td>
+<td>Response format</td>
+</tr>
+<tr>
+<td>dateofdeparture</td>
+<td>20190701</td>
+<td>Departure Date in ISO format i.e. YYYYMMDD. It must be before Arrival Date.</td>
+</tr>
+<tr>
+<td>dateofarrival</td>
+<td>20190702</td>
+<td>Arrival Date(provided in case of return flights) in ISO format i.e. YYYYMMDD</td>
+</tr>
+<tr>
+<td>source</td>
+<td>DEL</td>
+<td>Origin Airport Code (A valid IATA code). Source should not be same as destination</td>
+</tr>
+<tr>
+<td>destination</td>
+<td>BLR</td>
+<td>Destination Airport Code ( A valid IATA code)</td>
+</tr>
+<tr>
+<td>seatingclass</td>
+<td>E(Default)</td>
+<td>Travel Class/Cabin Type e.g. E(Economy), B(Business)</td>
+</tr>
+<tr>
+<td>adults</td>
+<td>1 (Default)</td>
+<td>No of Adults(0-9). Number of passengers cannot exceed 9. Minimum of 1 adult is required for booking.</td>
+</tr>
+<tr>
+<td>children</td>
+<td>0 (Default)</td>
+<td>No of Children(0-9).</td>
+</tr>
+<tr>
+<td>infants</td>
+<td>0 (Default)</td>
+<td>No of Infants(Can&#39;t exceed No of Adults)</td>
+</tr>
+<tr>
+<td>counter</td>
+<td>100 (Default)</td>
+<td>Choice of carriers ({ &#39;0&#39; : [&quot;ALL&quot;,&quot;SG&quot;,&quot;6E&quot;, &quot;NSG&quot;], &#39;1&#39; : [&quot;9W&quot;,&quot;S2&quot;,&quot;IT&quot;,&quot;AI&quot;], &#39;2&#39; : [&quot;6E&quot;,&quot;N6E&quot;], &#39;3&#39; : [&quot;G8&quot;,&quot;PG8&quot;,&quot;RG8&quot;], &#39;4&#39; : [&quot;9W&quot;, &quot;S2&quot;], &#39;5&#39; : [&quot;IT&quot;], &#39;6&#39; : [&quot;AI&quot;], &#39;7&#39; : [&quot;SG&quot;, &quot;PSG&quot;, &quot;NSG&quot;], &#39;11&#39; : [&quot;6E&quot;,&quot;NSG&quot;,&quot;MG8&quot;,&quot;9W&quot;,&quot;S2&quot;,&quot;IT&quot;,&quot;AI&quot;,&quot;SG&quot;], # 11 is for mobile special G8 fare; if any changes to be done to &#39;100&#39;, do it here as well. &#39;100&#39; : [&quot;6E&quot;,&quot;NSG&quot;,&quot;G8&quot;,&quot;9W&quot;,&quot;S2&quot;,&quot;IT&quot;,&quot;AI&quot;,&quot;SG&quot;,&quot;IX&quot;,&quot;SG&quot;,&quot;N6E&quot;,&quot;AK&quot;,&quot;LB&quot;], &#39;101&#39; : [&quot;9W&quot;,&quot;S2&quot;,&quot;6E&quot;,&quot;SG&quot;, &quot;NSG&quot;,&quot;AI&quot;,&quot;IT&quot;], &#39;200&#39; : [&quot;ALL&quot;], # Internatinal Multicity. &#39;201&#39; : [&quot;6E&quot;,&quot;SG&quot;,&quot;G8&quot;,&quot;9W&quot;,&quot;S2&quot;,&quot;IT&quot;,&quot;AI&quot;, &quot;NSG&quot;] # Domestic Multicity. })</td>
+</tr>
+<tr>
+<td>discountedflights</td>
+<td>Y/N</td>
+<td>optional parameter, if Y, gives discounted flights</td>
+</tr>
+</tbody></table>
+
+<p>This endpoint returns search results according to the query parameter.</p>
+<h3 id='search-response-parameters-and-structure'>Search Response Parameters And Structure</h3>
+<p>The typical flight search response format will be in the format as shown above. Response data will have two keys <code>onwardflights</code> and <code>returnflights</code>. If the search query is a Domestic oneway trip, then the <code>returnflight</code> key values will be <strong>Empty</strong> and <code>onwardflights</code> values will be present as shown in example response.</p>
+
+<p>let&#39;s explore the keys available in response.</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>returnflights</td>
+<td>This keys will have data if the user query is Domestic Roundtrip.If the return flight is multi stop flight <code>onwardflight</code> key will be nested inside <code>returnflights</code>.</td>
+</tr>
+<tr>
+<td>onwardflights</td>
+<td>This key will have data related to the onward flight details and if it has one or more stops it will be available inside onwarflights key nested inside <code>onwardflights</code></td>
+</tr>
+<tr>
+<td>arrtime</td>
+<td>This key indicates the arrival time. Time is added reference to the destination airport/countries time.</td>
+</tr>
+<tr>
+<td>CabinClass</td>
+<td>Values: Economy,Business , Premium Economy and Firstclass</td>
+</tr>
+<tr>
+<td>DepartureTime</td>
+<td>Denotes departure time in departure countries standard timezone.</td>
+</tr>
+<tr>
+<td>TravelTime</td>
+<td>Total travel time</td>
+</tr>
+<tr>
+<td>aircraftType</td>
+<td>denotes aircraft type eg: boying 737,787,etc</td>
+</tr>
+<tr>
+<td>airline</td>
+<td>Indicates the carrier name</td>
+</tr>
+<tr>
+<td>arrdate</td>
+<td>denotes arriving date at the destination.</td>
+</tr>
+<tr>
+<td>carrierid</td>
+<td>indicates IATA based airline id.</td>
+</tr>
+<tr>
+<td>depdate</td>
+<td>Departure date in yyyy-mm-ddtHHMM format</td>
+</tr>
+<tr>
+<td>destination</td>
+<td>destination Airport IATA code</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>duration of flight</td>
+</tr>
+<tr>
+<td>fare</td>
+<td>fare is a dict inside the onwardflight or returnflight values. This will consist of adultbasefare,adulttotalfare,grossamount,totalbasefare,totalcommission,totalfare,totalsurcharge.</td>
+</tr>
+<tr>
+<td>adultbasefare</td>
+<td>Base fare of an adult.</td>
+</tr>
+<tr>
+<td>adulttotalfare</td>
+<td>This is calculated by multiplaying num.of adults * adultbasefare + taxes. tax breakup will not show in search details.</td>
+</tr>
+<tr>
+<td>grossamount</td>
+<td>amount without any discount</td>
+</tr>
+<tr>
+<td>totalbasefare</td>
+<td>total fare of passengers without tax addition</td>
+</tr>
+<tr>
+<td>totalfare</td>
+<td>toatal amount to be paid</td>
+</tr>
+<tr>
+<td>farebasis</td>
+<td>vendor specific farebasis code</td>
+</tr>
+<tr>
+<td>flightcode/flightno</td>
+<td>flight number</td>
+</tr>
+<tr>
+<td>ibibopartner</td>
+<td>vendor name</td>
+</tr>
+<tr>
+<td>internationalsearch</td>
+<td>it can have two values true/false</td>
+</tr>
+<tr>
+<td>multicitysearch</td>
+<td>can be true or false</td>
+</tr>
+<tr>
+<td>onwardflights</td>
+<td>it can have values if the flight is multi stop flight.</td>
+</tr>
+<tr>
+<td>origin</td>
+<td>denotes origin airport IATA code.</td>
+</tr>
+<tr>
+<td>searchKey</td>
+<td>multi string concatenated values to easily identify fare details.</td>
+</tr>
+<tr>
+<td>seatingclass</td>
+<td>Possible keys for class are E,B,W,A</td>
+</tr>
+<tr>
+<td>seatsavailable</td>
+<td>The key Denote availability of seats. If the airline API couldnt provide the value by default it will set to <code>999</code></td>
+</tr>
+<tr>
+<td>splitduration</td>
+<td>key to denote total duration in case of one or more stop flights. In case of Direct flight that duration will added as value.</td>
+</tr>
+<tr>
+<td>warnings</td>
+<td>indicates warrning like refundable or non-refundable,etc</td>
+</tr>
+</tbody></table>
+
+<p><strong>In case of Domestic Round Trip</strong> returnflights keys values will be populated with the flight details accordingly. The structure of this json response will be the same as that of onwardflight.</p>
+
+<p><strong>International flight search response behaviour</strong></p>
+
+<p>For international roundrip, flight search response will have some changes as compared to domestic response.
+* For international roundtrip  <code>returnflights</code>list will remain empty. Round trip flight details and connection flights details will be populated inside the key <code>returnfl</code> which is available inside <code>onwardflights</code>.
+* </p>
+
+<blockquote>
+<p>interantional roundtrip JSON structure looks like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"returnflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rating"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"Group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"farebasis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARTSAVER"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"holdflag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"CINFO"</span><span class="p">:</span><span class="w"> </span><span class="s2">"air-DEL-DXB-20190701-20190702-1-0-0-E-100--"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07:50"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"codeshare"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ibibopartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spicejetnew"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3h 50m"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"platingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"qtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DXB"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"FlHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"oSG-11oSG-12"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"stops"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"seatsavailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SG"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Spicejet"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"PromotionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"grossamount"</span><span class="p">:</span><span class="w"> </span><span class="mi">24114</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"totalbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">20941</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"adultbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">20941</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">24114</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"totalsurcharge"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"adulttotalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">24114</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"totalcommission"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"CabinClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"returnfl"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DXB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"rating"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"farebasis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KRTSAVER"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"holdflag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"CINFO"</span><span class="p">:</span><span class="w"> </span><span class="s2">"air-DEL-DXB-20190701-20190702-1-0-0-E-100--"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22:45"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"codeshare"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ibibopartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spicejetnew"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3h 20m"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"platingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"qtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"FlHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SG-12"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"stops"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"seatsavailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SG"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Spicejet"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"PromotionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"totalsurcharge"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"totalbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"totalcommission"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"CabinClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"warnings"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refundable"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"BookabilityValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.588426</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ArrivalTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+
+            </span><span class="p">],</span><span class="w">
+            </span><span class="s2">"aircraftType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"737"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"operatingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"internationalsearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"aircraftTypecode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"189"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"splitduration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3h 20m"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"searchKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"K"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"SetTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-11 11:34:13"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"DataSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spicejetnew"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"multicitysearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-02t2245"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"03:35"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-03t0335"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"CacheKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DXBDEL20190702ESGR"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"TravelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"warnings"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refundable"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"BookabilityValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7344035999999999</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ArrivalTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"aircraftType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"737"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"seatingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"E"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"operatingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"internationalsearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"aircraftTypecode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"189"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"splitduration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3h 50m"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"searchKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:0:0:0:0:20941:0:24114:0:0:0:0:0:0:0:0:24114:20941:24114:0:0:0:0:0:0"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"SetTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-11 13:54:21"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"DataSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spicejetnew"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"multicitysearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-01t0750"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10:10"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-01t1010"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"CacheKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DELDXB20190701ESGO"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"TravelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>let&#39;s explore the additional changes available in the international roundtrip response.</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Key</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>returnflights</td>
+<td>always empty list in case of international roundtrip</td>
 </tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
-<table><thead>
 <tr>
-<th>Parameter</th>
-<th>Description</th>
+<td>fare</td>
+<td>Fare details about the roundtrip will be available inside this key. The details about the all keys are as given above column.</td>
 </tr>
-</thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>internationalsearch</td>
+<td>true or false possible values</td>
+</tr>
+<tr>
+<td>returnfl</td>
+<td>as mentioned earlier this key consists of return flight details values.The length of this dict will remain one. If return flight is non direct flight onwardflight dict will present inside the <code>returnfl</code> key. <code>fare</code> dict and <code>searchkey</code>  values inside returnfl will be empty, consider the fare key inside parent <code>onwardflights</code>.</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
 <aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
+    Consider error codes given below if you recieve some undesirable results.
+    </aside>
+<h3 id='the-goibibo-flight-search-api-uses-the-following-error-codes'>The Goibibo Flight Search API uses the following error codes:</h3>
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -446,58 +706,51 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
+<td>100</td>
+<td>Invalid IATA Code for Source/Destination</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
+<td>101</td>
+<td>Source and Destination are same</td>
 </tr>
 <tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>102</td>
+<td>Departure Date is after Arrival Date</td>
 </tr>
 <tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
+<td>103</td>
+<td>Invalid Counter value</td>
 </tr>
 <tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+<td>108</td>
+<td>No. of passengers cannot exceed 9</td>
 </tr>
 <tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
+<td>113</td>
+<td>Minimum of 1 adult required for booking</td>
 </tr>
 <tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
+<td>118</td>
+<td>No of infants cannot exceed no. of adults</td>
 </tr>
 <tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
+<td>123</td>
+<td>You dont have enough amount in your account to book this flight</td>
 </tr>
 <tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+<td>125</td>
+<td>Number of passangers can not be zero</td>
 </tr>
 <tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>130</td>
+<td>Schedule unavailable, try again after some time</td>
 </tr>
 </tbody></table>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="json">json</a>
           </div>
       </div>
     </div>
