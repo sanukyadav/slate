@@ -2479,7 +2479,12 @@ default_flavour | api flavour
 
 ## Flight cancel_info
 
-This api informs you about the amount that will be refunded if you cancel the ticket for which bookingId you have provided.
+This api shows booking details, cancellation charges and refund amount of onward and return segment for a booking you have mentioned.
+A discounted roundtrip booking will be considered as one segment and this booking is not eligible for segment cancellation.
+A family fare booking is not eligible for pax cancellation. You have to cancel all the passengers at a time. 
+Your ticket is not eligible for online cancellation if it expires in 4 hours. 
+If there is some error in calculating airline charges, this API will not return cancellation charges and refund amount.
+You can cancel a booking only when it is in confirmed status. If booking is already cancelled or flown, it shows empty response.
 
 ### HTTP Request Example
 
