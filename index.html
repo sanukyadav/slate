@@ -247,6 +247,9 @@
                   <li>
                     <a href="#flight-reschedule_info" class="toc-h2 toc-link" data-title="Flight reschedule_info">Flight reschedule_info</a>
                   </li>
+                  <li>
+                    <a href="#flight-farerules" class="toc-h2 toc-link" data-title="Flight farerules">Flight farerules</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -3631,6 +3634,131 @@ You can reschedule a booking when it is in confirmed status.</p>
 <tr>
 <td>paxs</td>
 <td>key contains passenger details,meal,baggage plan,etc</td>
+</tr>
+</tbody></table>
+<h2 id='flight-farerules'>Flight farerules</h2>
+<p>This API gives the farerules details. Terms and conditions can be vary sector or airline wise.</p>
+<h3 id='http-request-example-8'>HTTP Request Example</h3>
+<p><code>POST ENV/api/farerules/</code></p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"car"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SG"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"terms"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"DEL-BLR"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Promo Discount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Any Discount availed against an offer shall be adjusted in final refund amount"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Rescheduling/Change  Penalty*"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rs. 1500 + Applicable Fare Difference"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Goibibo Service Fee**"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rs. 200 or Rs. 250"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Service Tax"</span><span class="p">:</span><span class="w"> </span><span class="s2">"For Domestic: 4.94% on Net Airline Charges, For International: 12.36% on Airline Charges"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Ticket Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refundable"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Cancellation Penalty*"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rs. 1500 per person per sector"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minirules"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tnc"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Bookings with 4 or more tickets till 9 passengers in 1 PNR are special family fares and are subject to Cancellation and Change penalty of Rs. 1500 per person per sector if we cancel all passengers in the PNR."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*The charges are per passenger per sector."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*The penalty is subject to 4 hrs before departure. No Changes are allowed after that."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*The charges are per passenger per sector."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*Rescheduling Charges = Rescheduling/Change Penalty + Fare Difference (if applicable)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*Partial cancellation of passengers is not allowed on tickets booked under special discounted fares."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*In case of no-show or ticket not cancelled within the stipulated time, only statutory taxes are refundable subject to Goibibo Service Fee."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*No Baggage Allowance for Infants"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"**Goibibo Service fee will be Rs. 200 in case of online cancellation and Rs. 250 in case of customer-care assisted cancellation"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"**Disclaimer: Airline Penalty changes are indicative and can change without prior notice"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;response&gt;</span>
+    <span class="nt">&lt;data&gt;</span>
+        <span class="nt">&lt;car&gt;</span>SG<span class="nt">&lt;/car&gt;</span>
+        <span class="nt">&lt;terms&gt;</span>
+            <span class="nt">&lt;DEL-BLR&gt;</span>
+                <span class="nt">&lt;Promo</span> <span class="err">Discount</span><span class="nt">&gt;</span>Any Discount availed against an offer shall be adjusted in final refund amount<span class="err">&lt;</span>/Promo Discount&gt;
+                <span class="nt">&lt;Rescheduling</span><span class="err">/Change</span>  <span class="err">Penalty*</span><span class="nt">&gt;</span>Rs. 1500 + Applicable Fare Difference<span class="err">&lt;</span>/Rescheduling/Change  Penalty*&gt;
+                <span class="nt">&lt;Goibibo</span> <span class="err">Service</span> <span class="err">Fee**</span><span class="nt">&gt;</span>Rs. 200 or Rs. 250<span class="err">&lt;</span>/Goibibo Service Fee**&gt;
+                <span class="nt">&lt;Service</span> <span class="err">Tax</span><span class="nt">&gt;</span>For Domestic: 4.94% on Net Airline Charges, For International: 12.36% on Airline Charges<span class="err">&lt;</span>/Service Tax&gt;
+                <span class="nt">&lt;Ticket</span> <span class="err">Type</span><span class="nt">&gt;</span>refundable<span class="err">&lt;</span>/Ticket Type&gt;
+                <span class="nt">&lt;Cancellation</span> <span class="err">Penalty*</span><span class="nt">&gt;</span>Rs. 1500 per person per sector<span class="err">&lt;</span>/Cancellation Penalty*&gt;
+            <span class="nt">&lt;/DEL-BLR&gt;</span>
+        <span class="nt">&lt;/terms&gt;</span>
+        <span class="nt">&lt;name&gt;</span>minirules<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;tnc&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>Bookings with 4 or more tickets till 9 passengers in 1 PNR are special family fares and are subject to Cancellation and Change penalty of Rs. 1500 per person per sector if we cancel all passengers in the PNR.<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*The charges are per passenger per sector.<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*The penalty is subject to 4 hrs before departure. No Changes are allowed after that.<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*The charges are per passenger per sector.<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*Rescheduling Charges = Rescheduling/Change Penalty + Fare Difference (if applicable)<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*Partial cancellation of passengers is not allowed on tickets booked under special discounted fares.<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*In case of no-show or ticket not cancelled within the stipulated time, only statutory taxes are refundable subject to Goibibo Service Fee.<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>*No Baggage Allowance for Infants<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>**Goibibo Service fee will be Rs. 200 in case of online cancellation and Rs. 250 in case of customer-care assisted cancellation<span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>**Disclaimer: Airline Penalty changes are indicative and can change without prior notice<span class="nt">&lt;/resource&gt;</span>
+        <span class="nt">&lt;/tnc&gt;</span>
+    <span class="nt">&lt;/data&gt;</span>
+    <span class="nt">&lt;data_length&gt;</span>4<span class="nt">&lt;/data_length&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre><h3 id='query-parameters-8'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Example-Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ENV</td>
+<td><code>pp.goibibobusiness.com / www.goibibobusiness.com</code></td>
+<td>pp: test www: production</td>
+</tr>
+<tr>
+<td>bookingdata</td>
+<td><code>{Booking Dict}</code></td>
+<td>Booking data has to provide as a post body parameter. It can be find in reprice response.</td>
+</tr>
+<tr>
+<td>querydata</td>
+<td><code>#air-DEL-BLR-20191016--1-0-0-E-100</code></td>
+<td>querydata can be find in reprice response.</td>
+</tr>
+</tbody></table>
+<h3 id='farerules-api-parameters-and-structure'>farerules API Parameters And Structure</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>car</td>
+<td>airline carrier name</td>
+</tr>
+<tr>
+<td>terms</td>
+<td>Inside this key sector,airline specific terms will be available. Terms will be  arrnaged in sector wise(Source-Dest).</td>
+</tr>
+<tr>
+<td>Promo Discount</td>
+<td>Promotional discount if any</td>
+</tr>
+<tr>
+<td>Rescheduling/Change  Penalty</td>
+<td>change in penalty available here.</td>
+</tr>
+<tr>
+<td>Ticket Type</td>
+<td>refundable or non refundable</td>
+</tr>
+<tr>
+<td>Service Tax</td>
+<td>service tax charge avilable here</td>
+</tr>
+<tr>
+<td>tnc</td>
+<td>General mini rules will be available here.</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
