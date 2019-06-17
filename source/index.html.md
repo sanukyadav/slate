@@ -2849,13 +2849,102 @@ typeoftravel | domestic/interantional
 paxs | key contains passenger details,meal,baggage plan,etc
 
 
+## Flight farerules
+
+This API gives the farerules details. Terms and conditions can be vary sector or airline wise.
+
+### HTTP Request Example
+
+`POST ENV/api/farerules/`
+
+```json
+{
+    "data": {
+        "car": "SG",
+        "terms": {
+            "DEL-BLR": {
+                "Promo Discount": "Any Discount availed against an offer shall be adjusted in final refund amount",
+                "Rescheduling/Change  Penalty*": "Rs. 1500 + Applicable Fare Difference",
+                "Goibibo Service Fee**": "Rs. 200 or Rs. 250",
+                "Service Tax": "For Domestic: 4.94% on Net Airline Charges, For International: 12.36% on Airline Charges",
+                "Ticket Type": "refundable",
+                "Cancellation Penalty*": "Rs. 1500 per person per sector"
+            }
+        },
+        "name": "minirules",
+        "tnc": [
+            "*",
+            "Bookings with 4 or more tickets till 9 passengers in 1 PNR are special family fares and are subject to Cancellation and Change penalty of Rs. 1500 per person per sector if we cancel all passengers in the PNR.",
+            "*The charges are per passenger per sector.",
+            "*The penalty is subject to 4 hrs before departure. No Changes are allowed after that.",
+            "*The charges are per passenger per sector.",
+            "*Rescheduling Charges = Rescheduling/Change Penalty + Fare Difference (if applicable)",
+            "*Partial cancellation of passengers is not allowed on tickets booked under special discounted fares.",
+            "*In case of no-show or ticket not cancelled within the stipulated time, only statutory taxes are refundable subject to Goibibo Service Fee.",
+            "*No Baggage Allowance for Infants",
+            "**Goibibo Service fee will be Rs. 200 in case of online cancellation and Rs. 250 in case of customer-care assisted cancellation",
+            "**Disclaimer: Airline Penalty changes are indicative and can change without prior notice"
+        ]
+    },
+    "data_length": 4
+}
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+    <data>
+        <car>SG</car>
+        <terms>
+            <DEL-BLR>
+                <Promo Discount>Any Discount availed against an offer shall be adjusted in final refund amount</Promo Discount>
+                <Rescheduling/Change  Penalty*>Rs. 1500 + Applicable Fare Difference</Rescheduling/Change  Penalty*>
+                <Goibibo Service Fee**>Rs. 200 or Rs. 250</Goibibo Service Fee**>
+                <Service Tax>For Domestic: 4.94% on Net Airline Charges, For International: 12.36% on Airline Charges</Service Tax>
+                <Ticket Type>refundable</Ticket Type>
+                <Cancellation Penalty*>Rs. 1500 per person per sector</Cancellation Penalty*>
+            </DEL-BLR>
+        </terms>
+        <name>minirules</name>
+        <tnc>
+            <resource>*</resource>
+            <resource>Bookings with 4 or more tickets till 9 passengers in 1 PNR are special family fares and are subject to Cancellation and Change penalty of Rs. 1500 per person per sector if we cancel all passengers in the PNR.</resource>
+            <resource>*The charges are per passenger per sector.</resource>
+            <resource>*The penalty is subject to 4 hrs before departure. No Changes are allowed after that.</resource>
+            <resource>*The charges are per passenger per sector.</resource>
+            <resource>*Rescheduling Charges = Rescheduling/Change Penalty + Fare Difference (if applicable)</resource>
+            <resource>*Partial cancellation of passengers is not allowed on tickets booked under special discounted fares.</resource>
+            <resource>*In case of no-show or ticket not cancelled within the stipulated time, only statutory taxes are refundable subject to Goibibo Service Fee.</resource>
+            <resource>*No Baggage Allowance for Infants</resource>
+            <resource>**Goibibo Service fee will be Rs. 200 in case of online cancellation and Rs. 250 in case of customer-care assisted cancellation</resource>
+            <resource>**Disclaimer: Airline Penalty changes are indicative and can change without prior notice</resource>
+        </tnc>
+    </data>
+    <data_length>4</data_length>
+</response>
+```
 
 
+### Query Parameters
+
+Parameter | Example-Value | Description |
+--------- | --------------| ----------- |
+ENV | `pp.goibibobusiness.com / www.goibibobusiness.com` | pp: test www: production
+bookingdata | `{Booking Dict}` | Booking data has to provide as a post body parameter. It can be find in reprice response.
+querydata | `#air-DEL-BLR-20191016--1-0-0-E-100` | querydata can be find in reprice response.
 
 
+### farerules API Parameters And Structure
 
-
-
+Key | Description
+--------- | -----------
+car | airline carrier name
+terms | Inside this key sector,airline specific terms will be available. Terms will be  arrnaged in sector wise(Source-Dest).
+Promo Discount | Promotional discount if any
+Rescheduling/Change  Penalty | change in penalty available here.
+Ticket Type | refundable or non refundable
+Service Tax | service tax charge avilable here
+tnc | General mini rules will be available here.
 
 
 
