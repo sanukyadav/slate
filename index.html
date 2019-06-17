@@ -233,7 +233,7 @@
                     <a href="#flights-reprice" class="toc-h2 toc-link" data-title="Flights Reprice">Flights Reprice</a>
                   </li>
                   <li>
-                    <a href="#flight-book-tentative" class="toc-h2 toc-link" data-title="Flight Book Tentative">Flight Book Tentative</a>
+                    <a href="#flight-tentative-booking" class="toc-h2 toc-link" data-title="Flight Tentative Booking">Flight Tentative Booking</a>
                   </li>
                   <li>
                     <a href="#flight-confirm" class="toc-h2 toc-link" data-title="Flight Confirm">Flight Confirm</a>
@@ -242,7 +242,10 @@
                     <a href="#flight-getstatus" class="toc-h2 toc-link" data-title="Flight getstatus">Flight getstatus</a>
                   </li>
                   <li>
-                    <a href="#flight-cancel_update" class="toc-h2 toc-link" data-title="Flight cancel_update">Flight cancel_update</a>
+                    <a href="#flight-cancel_info" class="toc-h2 toc-link" data-title="Flight cancel_info">Flight cancel_info</a>
+                  </li>
+                  <li>
+                    <a href="#flight-reschedule_info" class="toc-h2 toc-link" data-title="Flight reschedule_info">Flight reschedule_info</a>
                   </li>
               </ul>
           </li>
@@ -262,7 +265,13 @@
                     <a href="#the-goibibo-confirm-api-uses-the-following-error-codes" class="toc-h2 toc-link" data-title="The Goibibo Confirm  API uses the following error codes:">The Goibibo Confirm  API uses the following error codes:</a>
                   </li>
                   <li>
-                    <a href="#the-goibibo-cancel_update_v2-api-uses-the-following-error-codes" class="toc-h2 toc-link" data-title="The Goibibo cancel_update_v2  API uses the following error codes:">The Goibibo cancel_update_v2  API uses the following error codes:</a>
+                    <a href="#the-goibibo-get_status-api-uses-the-following-error-codes" class="toc-h2 toc-link" data-title="The Goibibo get_status  API uses the following error codes:">The Goibibo get_status  API uses the following error codes:</a>
+                  </li>
+                  <li>
+                    <a href="#the-goibibo-reschedule_info-api-uses-the-following-error-codes" class="toc-h2 toc-link" data-title="The Goibibo reschedule_info  API uses the following error codes:">The Goibibo reschedule_info  API uses the following error codes:</a>
+                  </li>
+                  <li>
+                    <a href="#the-goibibo-cancel_info-api-uses-the-following-error-codes" class="toc-h2 toc-link" data-title="The Goibibo cancel_info  API uses the following error codes:">The Goibibo cancel_info  API uses the following error codes:</a>
                   </li>
               </ul>
           </li>
@@ -2637,7 +2646,7 @@ Reprice API require a POST HTTP Call. To hit this API user has to provide <code>
 <td>flag can have true or false familyfare plan.</td>
 </tr>
 </tbody></table>
-<h2 id='flight-book-tentative'>Flight Book Tentative</h2>
+<h2 id='flight-tentative-booking'>Flight Tentative Booking</h2>
 <p>Tentative booking is done through this API and requires a user to pass booking parameters using search data to the specified URL. Tentative Booking parameters include flight details, search details, passenger details, contact details, total fare, and a search key (Except paxinfo and contactinfo(which should be given by user, others are obtained from Reprice API response).</p>
 
 <p>Same API can be used to reschedule a booking. Additional two parameters (reschedule_breakup, faredict) should be added in case of rescheduling only if you get reschedule_breakup in the response of reprice API.</p>
@@ -2779,13 +2788,15 @@ Tentative Book API require a POST HTTP Call. To hit this API user has to provide
 <p><strong>Hash Is formed by concatenating following strings</strong></p>
 
 <ul>
-<li>payment_key: <code>PG secret key</code></li>
-<li>paymentId: <code>PaymentId or GoFl ID</code></li>
+<li>pSalt: <code>Auth Password used</code></li>
+<li>bookingId: <code>PaymentId or GoFl ID</code></li>
 <li>Amount: <code>ticket amount</code></li>
 <li>productinfo: <code>string consists of source,destination,deptime,arrtime,etc</code></li>
 <li>firstname: <code>passengers firstname</code></li>
 <li>email: <code>email of passenger</code> </li>
 <li>paymentSalt: <code>payment secret</code></li>
+<li>amountCrypt: crypt amount value</li>
+<li>&quot;travelibibo&quot;: travelibibo string</li>
 </ul>
 
 <aside class="success">
@@ -2825,7 +2836,52 @@ Attention— Consider the description given above about creating Hash for book. 
 </ol>
 <h3 id='http-request-example-4'>HTTP Request Example</h3>
 <p><code>POST ENV/api/confirm/</code></p>
-<h3 id='query-parameters-4'>Query Parameters</h3>
+
+<blockquote>
+<p>Confirm Api Example response:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">    </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"To Deliver"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"passengers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"segmentid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"firstname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sanu"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"middlename"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"lastname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ky"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="s2">"bookingid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NG8W1MUSB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3299.0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"spicebookingid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"72050735"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"goibibodiscount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"bookingrequestid"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"finalfare"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3299.0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"transactionfee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"flightdetails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"segmentid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BLR"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"airlinepnr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"W1MUSB"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-12T0550"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"G8"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoAir"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-12T0840"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"113"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre><h3 id='query-parameters-4'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2844,11 +2900,222 @@ Attention— Consider the description given above about creating Hash for book. 
 <td>hash_key to be passed is calculated as follows: 1) we calculate md5str using formula, md5str = pSalt + bookingId + &#39;</td>
 </tr>
 </tbody></table>
+<h3 id='confirm-api-response-parameters-and-structure'>Confirm API Response Parameters And Structure</h3>
+<p>A Success 200 response from confirm api indicates that your flight booking is successfully completed.You will get the response as given above.</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>this key indicates that the status of the flight booking. if it is <code>To Deliver</code>. flight booking process is completed successfully.</td>
+</tr>
+<tr>
+<td>passengers</td>
+<td>This key will have details about passenger.</td>
+</tr>
+<tr>
+<td>bookingid</td>
+<td>unique booing id generated by goibibo.</td>
+</tr>
+<tr>
+<td>totalfare</td>
+<td>total fare paid</td>
+</tr>
+<tr>
+<td>finalfare</td>
+<td>final fare after applying eligible coupen,discounts,etc</td>
+</tr>
+<tr>
+<td>flightdetails</td>
+<td>flight details can be find inside this key</td>
+</tr>
+<tr>
+<td>depterminal</td>
+<td>departure terminal number</td>
+</tr>
+<tr>
+<td>airlinepnr</td>
+<td>PNR generated by Airline API</td>
+</tr>
+<tr>
+<td>deptime</td>
+<td>departure time</td>
+</tr>
+<tr>
+<td>source</td>
+<td>IATA Code of source</td>
+</tr>
+<tr>
+<td>carrierid</td>
+<td>unique airline id</td>
+</tr>
+<tr>
+<td>airline</td>
+<td>name of the airline</td>
+</tr>
+<tr>
+<td>arrtime</td>
+<td></td>
+</tr>
+<tr>
+<td>flightno</td>
+<td>flight number</td>
+</tr>
+<tr>
+<td>arrterminal</td>
+<td>arrival terminal</td>
+</tr>
+</tbody></table>
 <h2 id='flight-getstatus'>Flight getstatus</h2>
 <p>The booking status API gives confirmed ticket search results using booking ID/PNR number. It responds with complete booking details of all the passengers, flight details, contact, and booking ID.</p>
 <h3 id='http-request-example-5'>HTTP Request Example</h3>
 <p><code>POST ENV/api/getstatus/</code></p>
-<h3 id='query-parameters-5'>Query Parameters</h3>
+
+<blockquote>
+<p>Example response of getstatus api</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">    </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"To Deliver"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"passengers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"BaggageTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"FirstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sanu"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MiddleName"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"LastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ky"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"eticketnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"FlierNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Extra_ServiceTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Extra_ServiceTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"DateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"BaggageTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"SeatTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MealTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MealTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"FrequentAirline"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"SeatTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="s2">"bookingid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NG8W1MUSB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"airlinepnr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"W1MUSB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"bookingrequestid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NG8W1MUSB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"finalfare"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3299"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"sourcecode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"paymentid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GOFLDAPIb1e5d0516555"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"flightdetails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"showPrint"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-12 05:50"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"showCheckIn"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2h 50m"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"chckin_msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoAir Allows Web Check-in Between 72 hours to 2 hours prior to the departure"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"bookingdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-14 18:19:15"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"113"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BLR"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"airlinepnr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"W1MUSB"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"G8"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"seatingclassname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Economy"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"show_rti_ins_link"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"seatRequests"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Confirmed"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"checkinlink"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.goair.in/plan-my-trip/web-check-in/"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"dtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05:50"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"showInvoice"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"enable_check_in"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"goibiboid"</span><span class="p">:</span><span class="w"> </span><span class="mi">30174</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"typeoftravel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domestic"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"default_flavour"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v2"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"is_staff"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GOAIR"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"cancelFlag"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-12t0550"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08:40"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-12t0840"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code>    <span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;response&gt;</span>
+    <span class="nt">&lt;data&gt;</span>
+        <span class="nt">&lt;resource&gt;</span>
+            <span class="nt">&lt;status&gt;</span>To Deliver<span class="nt">&lt;/status&gt;</span>
+            <span class="nt">&lt;passengers&gt;</span>
+                <span class="nt">&lt;resource&gt;</span>
+                    <span class="nt">&lt;BaggageTypeReturn&gt;&lt;/BaggageTypeReturn&gt;</span>
+                    <span class="nt">&lt;FirstName&gt;</span>Sanu<span class="nt">&lt;/FirstName&gt;</span>
+                    <span class="nt">&lt;Title&gt;</span>1<span class="nt">&lt;/Title&gt;</span>
+                    <span class="nt">&lt;MiddleName&gt;&lt;/MiddleName&gt;</span>
+                    <span class="nt">&lt;LastName&gt;</span>Ky<span class="nt">&lt;/LastName&gt;</span>
+                    <span class="nt">&lt;eticketnumber&gt;&lt;/eticketnumber&gt;</span>
+                    <span class="nt">&lt;FlierNumber&gt;&lt;/FlierNumber&gt;</span>
+                    <span class="nt">&lt;Extra_ServiceTypeReturn&gt;&lt;/Extra_ServiceTypeReturn&gt;</span>
+                    <span class="nt">&lt;Extra_ServiceTypeOnward&gt;&lt;/Extra_ServiceTypeOnward&gt;</span>
+                    <span class="nt">&lt;DateOfBirth&gt;&lt;/DateOfBirth&gt;</span>
+                    <span class="nt">&lt;BaggageTypeOnward&gt;&lt;/BaggageTypeOnward&gt;</span>
+                    <span class="nt">&lt;SeatTypeOnward&gt;&lt;/SeatTypeOnward&gt;</span>
+                    <span class="nt">&lt;MealTypeReturn&gt;&lt;/MealTypeReturn&gt;</span>
+                    <span class="nt">&lt;MealTypeOnward&gt;&lt;/MealTypeOnward&gt;</span>
+                    <span class="nt">&lt;FrequentAirline&gt;</span>None<span class="nt">&lt;/FrequentAirline&gt;</span>
+                    <span class="nt">&lt;Type&gt;</span>A<span class="nt">&lt;/Type&gt;</span>
+                    <span class="nt">&lt;SeatTypeReturn&gt;&lt;/SeatTypeReturn&gt;</span>
+                <span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;/passengers&gt;</span>
+            <span class="nt">&lt;bookingid&gt;</span>NG8W1MUSB<span class="nt">&lt;/bookingid&gt;</span>
+            <span class="nt">&lt;airlinepnr&gt;</span>W1MUSB<span class="nt">&lt;/airlinepnr&gt;</span>
+            <span class="nt">&lt;bookingrequestid&gt;</span>NG8W1MUSB<span class="nt">&lt;/bookingrequestid&gt;</span>
+            <span class="nt">&lt;finalfare&gt;</span>3299<span class="nt">&lt;/finalfare&gt;</span>
+            <span class="nt">&lt;sourcecode&gt;</span>DEL<span class="nt">&lt;/sourcecode&gt;</span>
+            <span class="nt">&lt;paymentid&gt;</span>GOFLDAPIb1e5d0516555<span class="nt">&lt;/paymentid&gt;</span>
+            <span class="nt">&lt;flightdetails&gt;</span>
+                <span class="nt">&lt;resource&gt;</span>
+                    <span class="nt">&lt;showPrint&gt;</span>True<span class="nt">&lt;/showPrint&gt;</span>
+                    <span class="nt">&lt;deptime&gt;</span>2019-07-12 05:50<span class="nt">&lt;/deptime&gt;</span>
+                    <span class="nt">&lt;showCheckIn&gt;</span>True<span class="nt">&lt;/showCheckIn&gt;</span>
+                    <span class="nt">&lt;duration&gt;</span>2h 50m<span class="nt">&lt;/duration&gt;</span>
+                    <span class="nt">&lt;chckin_msg&gt;</span>GoAir Allows Web Check-in Between 72 hours to 2 hours prior to the departure<span class="nt">&lt;/chckin_msg&gt;</span>
+                    <span class="nt">&lt;bookingdate&gt;</span>2019-06-14 18:19:15<span class="nt">&lt;/bookingdate&gt;</span>
+                    <span class="nt">&lt;flightno&gt;</span>113<span class="nt">&lt;/flightno&gt;</span>
+                    <span class="nt">&lt;index&gt;</span>1<span class="nt">&lt;/index&gt;</span>
+                    <span class="nt">&lt;destination&gt;</span>BLR<span class="nt">&lt;/destination&gt;</span>
+                    <span class="nt">&lt;airlinepnr&gt;</span>W1MUSB<span class="nt">&lt;/airlinepnr&gt;</span>
+                    <span class="nt">&lt;source&gt;</span>DEL<span class="nt">&lt;/source&gt;</span>
+                    <span class="nt">&lt;carrierid&gt;</span>G8<span class="nt">&lt;/carrierid&gt;</span>
+                    <span class="nt">&lt;seatingclassname&gt;</span>Economy<span class="nt">&lt;/seatingclassname&gt;</span>
+                    <span class="nt">&lt;show_rti_ins_link&gt;</span>False<span class="nt">&lt;/show_rti_ins_link&gt;</span>
+                    <span class="nt">&lt;seatRequests&gt;</span>None<span class="nt">&lt;/seatRequests&gt;</span>
+                    <span class="nt">&lt;status&gt;</span>Confirmed<span class="nt">&lt;/status&gt;</span>
+                    <span class="nt">&lt;checkinlink&gt;</span>https://www.goair.in/plan-my-trip/web-check-in/<span class="nt">&lt;/checkinlink&gt;</span>
+                    <span class="nt">&lt;dtime&gt;</span>05:50<span class="nt">&lt;/dtime&gt;</span>
+                    <span class="nt">&lt;showInvoice&gt;</span>True<span class="nt">&lt;/showInvoice&gt;</span>
+                    <span class="nt">&lt;enable_check_in&gt;</span>False<span class="nt">&lt;/enable_check_in&gt;</span>
+                    <span class="nt">&lt;goibiboid&gt;</span>30174<span class="nt">&lt;/goibiboid&gt;</span>
+                    <span class="nt">&lt;typeoftravel&gt;</span>domestic<span class="nt">&lt;/typeoftravel&gt;</span>
+                    <span class="nt">&lt;default_flavour&gt;</span>v2<span class="nt">&lt;/default_flavour&gt;</span>
+                    <span class="nt">&lt;is_staff&gt;</span>False<span class="nt">&lt;/is_staff&gt;</span>
+                    <span class="nt">&lt;airline&gt;</span>GOAIR<span class="nt">&lt;/airline&gt;</span>
+                    <span class="nt">&lt;cancelFlag&gt;</span>True<span class="nt">&lt;/cancelFlag&gt;</span>
+                    <span class="nt">&lt;depdate&gt;</span>2019-07-12t0550<span class="nt">&lt;/depdate&gt;</span>
+                    <span class="nt">&lt;arrtime&gt;</span>08:40<span class="nt">&lt;/arrtime&gt;</span>
+                    <span class="nt">&lt;arrdate&gt;</span>2019-07-12t0840<span class="nt">&lt;/arrdate&gt;</span>
+                <span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;/flightdetails&gt;</span>
+        <span class="nt">&lt;/resource&gt;</span>
+    <span class="nt">&lt;/data&gt;</span>
+    <span class="nt">&lt;data_length&gt;</span>1<span class="nt">&lt;/data_length&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+</code></pre><h3 id='query-parameters-5'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2867,19 +3134,165 @@ Attention— Consider the description given above about creating Hash for book. 
 <td>Value of bookingrequestid from response of Confirm API.</td>
 </tr>
 </tbody></table>
-<h2 id='flight-cancel_update'>Flight cancel_update</h2>
-<p>This api cancels your ticket and allows segment cancellation (onward/return or both) and pax cancellation (you can select passengers you want to cancel).
-Parameter passengerlist_onward ensures that you want to cancel onward segment for the passengers you have mentioned in this paramenter.
-Parameter passengerlist_return ensures that you want to cancel return segment for the passengers you have mentioned in this paramenter.
-If you pass both the parameters passengerlist_onward and passengerlist_return, it cancels both the segments for the passengers you have mentioned in these parameters. 
-A discounted roundtrip booking will be considered as one segment and this booking is not eligible for segment cancellation.
-A family fare booking is not eligible for pax cancellation. You have to cancel all the passengers at a time.
-Your ticket is not eligible for online cancellation if it expires in 4 hours. 
-If there is some error in calculating airline chagres or flight is cancelled (when reasonBox_onward/reasonBox_return = Flight Cancelled), it submits cancellation request and CRM will take care of it. 
-You can cancel a booking only when it is in confirmed status.</p>
+<h3 id='getstatus-api-response-parameters-and-structure'>getstatus API Response Parameters And Structure</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>this key indicates that the status of the flight booking. if it is <code>To Deliver</code>. flight booking process is completed successfully.</td>
+</tr>
+<tr>
+<td>passengers</td>
+<td>this key gives all the information about passenger.</td>
+</tr>
+<tr>
+<td>bookingid</td>
+<td>goibibo unique booking id</td>
+</tr>
+<tr>
+<td>airlinepnr</td>
+<td>PNR generated by airline api</td>
+</tr>
+<tr>
+<td>finalfare</td>
+<td>total fare of the flight</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>duration of flight</td>
+</tr>
+<tr>
+<td>chckin_msg</td>
+<td>message from airline. This message can vary vendor to vendor.</td>
+</tr>
+<tr>
+<td>bookingdate</td>
+<td>ticket booking date with time.</td>
+</tr>
+<tr>
+<td>typeoftravel</td>
+<td>can be domestic/ international</td>
+</tr>
+<tr>
+<td>default_flavour</td>
+<td>api flavour</td>
+</tr>
+</tbody></table>
+<h2 id='flight-cancel_info'>Flight cancel_info</h2>
+<p>This api informs you about the amount that will be refunded if you cancel the ticket for which bookingId you have provided.</p>
 <h3 id='http-request-example-6'>HTTP Request Example</h3>
-<p><code>POST ENV/api/v2/cancel_update/</code></p>
-<h3 id='query-parameters-6'>Query Parameters</h3>
+<p><code>POST ENV/api/v2/cancel_info/</code></p>
+
+<blockquote>
+<p>Example cancel info response.</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"To Deliver"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mumbai"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"destination_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BOM"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"mihpayid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0009940785"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"arrivaldate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-20t0525"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"traveldate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"June 20 2019 04:00"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"pnr"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"airlinepnr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HMZXT"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"travellerdetails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="s2">"A-Mr-Susen-Thakrar"</span><span class="w">
+                </span><span class="p">],</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1875480</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Goa"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"travelamount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2660"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Air India"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"bookingid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TUAO8M85G"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"paymentid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GOFLDKMBf91560754590"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"05:25"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"source_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GOI"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"traveltime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"04:00"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"bookingdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"June 17 2019"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AI34"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"paxInsuranceCharges"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"chdamnt"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"paxConvenienceCharges"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"dom_inter_cancelFlag"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"ibibocharges"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"airlinecharges"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"familyfare"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"discounted_trip"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"business_booking"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"typeoftravel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domestic"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"zero_cancellation"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"infamnt"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"paxCancellationCharges"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"segmentinfo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Onward"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"airasiainfantairlinefee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"adtamnt"</span><span class="p">:</span><span class="w"> </span><span class="mi">2660</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="p">[]</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;response&gt;</span>
+    <span class="nt">&lt;data&gt;</span>
+        <span class="nt">&lt;resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>
+                <span class="nt">&lt;status&gt;</span>To Deliver<span class="nt">&lt;/status&gt;</span>
+                <span class="nt">&lt;destination&gt;</span>Mumbai<span class="nt">&lt;/destination&gt;</span>
+                <span class="nt">&lt;destination_code&gt;</span>BOM<span class="nt">&lt;/destination_code&gt;</span>
+                <span class="nt">&lt;mihpayid&gt;</span>0009940785<span class="nt">&lt;/mihpayid&gt;</span>
+                <span class="nt">&lt;arrivaldate&gt;</span>2019-06-20t0525<span class="nt">&lt;/arrivaldate&gt;</span>
+                <span class="nt">&lt;traveldate&gt;</span>June 20 2019 04:00<span class="nt">&lt;/traveldate&gt;</span>
+                <span class="nt">&lt;pnr&gt;</span>None<span class="nt">&lt;/pnr&gt;</span>
+                <span class="nt">&lt;airlinepnr&gt;</span>HMZXT<span class="nt">&lt;/airlinepnr&gt;</span>
+                <span class="nt">&lt;travellerdetails&gt;</span>
+                    <span class="nt">&lt;resource&gt;</span>A-Mr-Susen-Thakrar<span class="nt">&lt;/resource&gt;</span>
+                <span class="nt">&lt;/travellerdetails&gt;</span>
+                <span class="nt">&lt;id&gt;</span>1875480<span class="nt">&lt;/id&gt;</span>
+                <span class="nt">&lt;source&gt;</span>Goa<span class="nt">&lt;/source&gt;</span>
+                <span class="nt">&lt;travelamount&gt;</span>2660<span class="nt">&lt;/travelamount&gt;</span>
+                <span class="nt">&lt;airline&gt;</span>Air India<span class="nt">&lt;/airline&gt;</span>
+                <span class="nt">&lt;bookingid&gt;</span>TUAO8M85G<span class="nt">&lt;/bookingid&gt;</span>
+                <span class="nt">&lt;paymentid&gt;</span>GOFLDKMBf91560754590<span class="nt">&lt;/paymentid&gt;</span>
+                <span class="nt">&lt;arrtime&gt;</span>05:25<span class="nt">&lt;/arrtime&gt;</span>
+                <span class="nt">&lt;source_code&gt;</span>GOI<span class="nt">&lt;/source_code&gt;</span>
+                <span class="nt">&lt;traveltime&gt;</span>04:00<span class="nt">&lt;/traveltime&gt;</span>
+                <span class="nt">&lt;bookingdate&gt;</span>June 17 2019<span class="nt">&lt;/bookingdate&gt;</span>
+                <span class="nt">&lt;flightno&gt;</span>AI34<span class="nt">&lt;/flightno&gt;</span>
+            <span class="nt">&lt;/resource&gt;</span>
+            <span class="nt">&lt;resource&gt;</span>
+                <span class="nt">&lt;paxInsuranceCharges&gt;</span>0<span class="nt">&lt;/paxInsuranceCharges&gt;</span>
+                <span class="nt">&lt;chdamnt&gt;</span>0.0<span class="nt">&lt;/chdamnt&gt;</span>
+                <span class="nt">&lt;paxConvenienceCharges&gt;</span>0<span class="nt">&lt;/paxConvenienceCharges&gt;</span>
+                <span class="nt">&lt;dom_inter_cancelFlag&gt;</span>True<span class="nt">&lt;/dom_inter_cancelFlag&gt;</span>
+                <span class="nt">&lt;ibibocharges&gt;</span>300.0<span class="nt">&lt;/ibibocharges&gt;</span>
+                <span class="nt">&lt;airlinecharges&gt;</span>0<span class="nt">&lt;/airlinecharges&gt;</span>
+                <span class="nt">&lt;familyfare&gt;</span>False<span class="nt">&lt;/familyfare&gt;</span>
+                <span class="nt">&lt;discounted_trip&gt;</span>False<span class="nt">&lt;/discounted_trip&gt;</span>
+                <span class="nt">&lt;business_booking&gt;</span>False<span class="nt">&lt;/business_booking&gt;</span>
+                <span class="nt">&lt;typeoftravel&gt;</span>domestic<span class="nt">&lt;/typeoftravel&gt;</span>
+                <span class="nt">&lt;zero_cancellation&gt;</span>False<span class="nt">&lt;/zero_cancellation&gt;</span>
+                <span class="nt">&lt;infamnt&gt;</span>0.0<span class="nt">&lt;/infamnt&gt;</span>
+                <span class="nt">&lt;paxCancellationCharges&gt;</span>300.0<span class="nt">&lt;/paxCancellationCharges&gt;</span>
+                <span class="nt">&lt;segmentinfo&gt;</span>Onward<span class="nt">&lt;/segmentinfo&gt;</span>
+                <span class="nt">&lt;airasiainfantairlinefee&gt;</span>0<span class="nt">&lt;/airasiainfantairlinefee&gt;</span>
+                <span class="nt">&lt;adtamnt&gt;</span>2660.0<span class="nt">&lt;/adtamnt&gt;</span>
+            <span class="nt">&lt;/resource&gt;</span>
+        <span class="nt">&lt;/resource&gt;</span>
+        <span class="nt">&lt;resource&gt;&lt;/resource&gt;</span>
+    <span class="nt">&lt;/data&gt;</span>
+    <span class="nt">&lt;data_length&gt;</span>2<span class="nt">&lt;/data_length&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+
+</code></pre><h3 id='query-parameters-6'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -2897,25 +3310,322 @@ You can cancel a booking only when it is in confirmed status.</p>
 <td><code>GOFLDAPIfe6911439890114</code></td>
 <td>Value of bookingrequestid from response of Confirm API.</td>
 </tr>
+</tbody></table>
+<h3 id='cancel-api-response-parameters-and-structure'>cancel API Response Parameters And Structure</h3>
+<table><thead>
 <tr>
-<td>passengerlist_onward</td>
-<td><code>[&quot;A-Mr-Test-BD&quot;,&quot;C-Mr-User-BC&quot;]</code></td>
-<td>The list of passengers for onward flights you want to cancel (This information will be obtained from cancel_info api).</td>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>status of booking</td>
 </tr>
 <tr>
-<td>passengerlist_return</td>
-<td><code>[&quot;A-Mr-Test-BD&quot;,&quot;C-Mr-User-BC&quot;]</code></td>
-<td>The list of passengers for return flights you want to cancel (This information will be obtained from cancel_info api).</td>
+<td>destination_code</td>
+<td>destination IATA code</td>
 </tr>
 <tr>
-<td>reasonBox_onward</td>
-<td>Normal Cancellation/Flight Cancelled</td>
-<td>Reason for cancellation.</td>
+<td>airlinepnr</td>
+<td>Airline api generated PNR</td>
 </tr>
 <tr>
-<td>reasonBox_return</td>
-<td>Normal Cancellation/Flight Cancelled</td>
-<td>Reason for cancellation</td>
+<td>travellerdetails</td>
+<td>traveller details will be available in this list.</td>
+</tr>
+<tr>
+<td>paymentid</td>
+<td>payment ID generated by goibibo</td>
+</tr>
+<tr>
+<td>bookingid</td>
+<td>booking ID generated by goibibo</td>
+</tr>
+<tr>
+<td>arrtime</td>
+<td>arrival time in destination Local GMT</td>
+</tr>
+<tr>
+<td>source_code</td>
+<td>source IATA code</td>
+</tr>
+<tr>
+<td>flightno</td>
+<td>flight number</td>
+</tr>
+<tr>
+<td>adtamnt</td>
+<td>adult amount</td>
+</tr>
+<tr>
+<td>segmentinfo</td>
+<td>indicates onward / return</td>
+</tr>
+<tr>
+<td>paxCancellationCharges</td>
+<td>passenger cancellation charge</td>
+</tr>
+<tr>
+<td>typeoftravel</td>
+<td>Domestic/International</td>
+</tr>
+</tbody></table>
+<h2 id='flight-reschedule_info'>Flight reschedule_info</h2>
+<p>This api shows booking details, reschedule charges and refund. If there is some error in calculating airline charges, it shows reschedule charges and refund amount 0. If booking is not eligible for reschedule, it shows empty paxs in response. 
+A discounted roundtrip booking will be considered as one segment and this booking is not eligible for segment reschduling.
+Your ticket is not eligible for online rescheduling if it expires in 24 hours. 
+A family fare booking is not eligible for pax rescheduling (you have to reschedule all the passengers at a time). 
+You can reschedule a booking when it is in confirmed status.</p>
+<h3 id='http-request-example-7'>HTTP Request Example</h3>
+<p><code>POST ENV/api/v2/reschedule_info/</code></p>
+
+<blockquote>
+<p>Sample Response from reschedule api</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">    </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"total_refund"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ambiguous_airline_charges"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"total_paid_fare"</span><span class="p">:</span><span class="w"> </span><span class="mi">3299</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"cannot_change_reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"segments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"onward"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Confirmed"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"destcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BLR"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"arrival_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-12T08:40:00"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"G8-113"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"source_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New Delhi"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"dest_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bangalore"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"traveldate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-12T05:50:00"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"mihpayid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CRED22096"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"airlinepnr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"W1MUSB"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"carrier_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"G8"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"typeoftravel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domestic"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoAir"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"sourcecode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"bookingid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NG8W1MUSB"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"carrier_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoAir"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">30174</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"G8113"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"can_change"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"gl_charges"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"total_charges"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"A"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"I"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"C"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"convenience_charges"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"airline_charges"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"A"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"I"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"C"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"insurance_charges_partial_cancellation"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"insurance_charges"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"goibibo_charges"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"discounted_roundtrip"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"new_return_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"paxs"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"A-Mr-Test-User"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"refund"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"reschedule"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="s2">"FirstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"LastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MealTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"DateOfBirth"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"meal_charges"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"SeatTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"eticketnumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"FlierNumber"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"sendtitle"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"FrequentAirline"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="mi">3299</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"BaggageTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MiddleName"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"Extra_ServiceTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"BaggageTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"charges"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"reschedule"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="s2">"Extra_ServiceTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"SeatTypeOnward"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"MealTypeReturn"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"refundable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"today"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-17T13:08:27.123"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"new_depart_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><pre class="highlight xml tab-xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;response&gt;</span>
+    <span class="nt">&lt;data&gt;</span>
+        <span class="nt">&lt;resource&gt;</span>
+            <span class="nt">&lt;total_refund&gt;</span>0<span class="nt">&lt;/total_refund&gt;</span>
+            <span class="nt">&lt;ambiguous_airline_charges&gt;</span>True<span class="nt">&lt;/ambiguous_airline_charges&gt;</span>
+            <span class="nt">&lt;total_paid_fare&gt;</span>3299<span class="nt">&lt;/total_paid_fare&gt;</span>
+            <span class="nt">&lt;cannot_change_reason&gt;&lt;/cannot_change_reason&gt;</span>
+            <span class="nt">&lt;segments&gt;</span>
+                <span class="nt">&lt;onward&gt;</span>
+                    <span class="nt">&lt;resource&gt;</span>
+                        <span class="nt">&lt;status&gt;</span>Confirmed<span class="nt">&lt;/status&gt;</span>
+                        <span class="nt">&lt;destcode&gt;</span>BLR<span class="nt">&lt;/destcode&gt;</span>
+                        <span class="nt">&lt;arrival_date&gt;</span>2019-07-12 08:40:00<span class="nt">&lt;/arrival_date&gt;</span>
+                        <span class="nt">&lt;flightcode&gt;</span>G8-113<span class="nt">&lt;/flightcode&gt;</span>
+                        <span class="nt">&lt;source_name&gt;</span>New Delhi<span class="nt">&lt;/source_name&gt;</span>
+                        <span class="nt">&lt;dest_name&gt;</span>Bangalore<span class="nt">&lt;/dest_name&gt;</span>
+                        <span class="nt">&lt;traveldate&gt;</span>2019-07-12 05:50:00<span class="nt">&lt;/traveldate&gt;</span>
+                        <span class="nt">&lt;mihpayid&gt;</span>CRED22096<span class="nt">&lt;/mihpayid&gt;</span>
+                        <span class="nt">&lt;airlinepnr&gt;</span>W1MUSB<span class="nt">&lt;/airlinepnr&gt;</span>
+                        <span class="nt">&lt;carrier_id&gt;</span>G8<span class="nt">&lt;/carrier_id&gt;</span>
+                        <span class="nt">&lt;typeoftravel&gt;</span>domestic<span class="nt">&lt;/typeoftravel&gt;</span>
+                        <span class="nt">&lt;airline&gt;</span>GoAir<span class="nt">&lt;/airline&gt;</span>
+                        <span class="nt">&lt;sourcecode&gt;</span>DEL<span class="nt">&lt;/sourcecode&gt;</span>
+                        <span class="nt">&lt;bookingid&gt;</span>NG8W1MUSB<span class="nt">&lt;/bookingid&gt;</span>
+                        <span class="nt">&lt;carrier_name&gt;</span>GoAir<span class="nt">&lt;/carrier_name&gt;</span>
+                        <span class="nt">&lt;id&gt;</span>30174<span class="nt">&lt;/id&gt;</span>
+                        <span class="nt">&lt;flightno&gt;</span>G8113<span class="nt">&lt;/flightno&gt;</span>
+                    <span class="nt">&lt;/resource&gt;</span>
+                <span class="nt">&lt;/onward&gt;</span>
+            <span class="nt">&lt;/segments&gt;</span>
+            <span class="nt">&lt;can_change&gt;</span>True<span class="nt">&lt;/can_change&gt;</span>
+            <span class="nt">&lt;gl_charges&gt;</span>
+                <span class="nt">&lt;total_charges&gt;</span>
+                    <span class="nt">&lt;A&gt;</span>300.0<span class="nt">&lt;/A&gt;</span>
+                    <span class="nt">&lt;I&gt;</span>0<span class="nt">&lt;/I&gt;</span>
+                    <span class="nt">&lt;C&gt;</span>300.0<span class="nt">&lt;/C&gt;</span>
+                <span class="nt">&lt;/total_charges&gt;</span>
+                <span class="nt">&lt;convenience_charges&gt;</span>0<span class="nt">&lt;/convenience_charges&gt;</span>
+                <span class="nt">&lt;airline_charges&gt;</span>
+                    <span class="nt">&lt;A&gt;</span>0<span class="nt">&lt;/A&gt;</span>
+                    <span class="nt">&lt;I&gt;</span>0<span class="nt">&lt;/I&gt;</span>
+                    <span class="nt">&lt;C&gt;</span>0<span class="nt">&lt;/C&gt;</span>
+                <span class="nt">&lt;/airline_charges&gt;</span>
+                <span class="nt">&lt;insurance_charges_partial_cancellation&gt;</span>0<span class="nt">&lt;/insurance_charges_partial_cancellation&gt;</span>
+                <span class="nt">&lt;insurance_charges&gt;</span>0<span class="nt">&lt;/insurance_charges&gt;</span>
+                <span class="nt">&lt;goibibo_charges&gt;</span>300.0<span class="nt">&lt;/goibibo_charges&gt;</span>
+            <span class="nt">&lt;/gl_charges&gt;</span>
+            <span class="nt">&lt;discounted_roundtrip&gt;</span>False<span class="nt">&lt;/discounted_roundtrip&gt;</span>
+            <span class="nt">&lt;new_return_date&gt;</span>None<span class="nt">&lt;/new_return_date&gt;</span>
+            <span class="nt">&lt;paxs&gt;</span>
+                <span class="nt">&lt;A-Mr-Sanu-Ky&gt;</span>
+                    <span class="nt">&lt;refund&gt;</span>
+                        <span class="nt">&lt;reschedule&gt;</span>0<span class="nt">&lt;/reschedule&gt;</span>
+                    <span class="nt">&lt;/refund&gt;</span>
+                    <span class="nt">&lt;FirstName&gt;</span>Test<span class="nt">&lt;/FirstName&gt;</span>
+                    <span class="nt">&lt;Title&gt;</span>1<span class="nt">&lt;/Title&gt;</span>
+                    <span class="nt">&lt;LastName&gt;</span>User<span class="nt">&lt;/LastName&gt;</span>
+                    <span class="nt">&lt;MealTypeOnward&gt;&lt;/MealTypeOnward&gt;</span>
+                    <span class="nt">&lt;DateOfBirth&gt;&lt;/DateOfBirth&gt;</span>
+                    <span class="nt">&lt;meal_charges&gt;</span>0<span class="nt">&lt;/meal_charges&gt;</span>
+                    <span class="nt">&lt;Type&gt;</span>A<span class="nt">&lt;/Type&gt;</span>
+                    <span class="nt">&lt;SeatTypeReturn&gt;&lt;/SeatTypeReturn&gt;</span>
+                    <span class="nt">&lt;eticketnumber&gt;&lt;/eticketnumber&gt;</span>
+                    <span class="nt">&lt;FlierNumber&gt;&lt;/FlierNumber&gt;</span>
+                    <span class="nt">&lt;sendtitle&gt;</span>True<span class="nt">&lt;/sendtitle&gt;</span>
+                    <span class="nt">&lt;FrequentAirline&gt;</span>None<span class="nt">&lt;/FrequentAirline&gt;</span>
+                    <span class="nt">&lt;fare&gt;</span>3299<span class="nt">&lt;/fare&gt;</span>
+                    <span class="nt">&lt;BaggageTypeReturn&gt;&lt;/BaggageTypeReturn&gt;</span>
+                    <span class="nt">&lt;MiddleName&gt;&lt;/MiddleName&gt;</span>
+                    <span class="nt">&lt;Extra_ServiceTypeReturn&gt;&lt;/Extra_ServiceTypeReturn&gt;</span>
+                    <span class="nt">&lt;BaggageTypeOnward&gt;&lt;/BaggageTypeOnward&gt;</span>
+                    <span class="nt">&lt;charges&gt;</span>
+                        <span class="nt">&lt;reschedule&gt;</span>0<span class="nt">&lt;/reschedule&gt;</span>
+                    <span class="nt">&lt;/charges&gt;</span>
+                    <span class="nt">&lt;Extra_ServiceTypeOnward&gt;&lt;/Extra_ServiceTypeOnward&gt;</span>
+                    <span class="nt">&lt;SeatTypeOnward&gt;&lt;/SeatTypeOnward&gt;</span>
+                    <span class="nt">&lt;MealTypeReturn&gt;&lt;/MealTypeReturn&gt;</span>
+                <span class="nt">&lt;/A-Mr-Sanu-Ky&gt;</span>
+            <span class="nt">&lt;/paxs&gt;</span>
+            <span class="nt">&lt;refundable&gt;</span>True<span class="nt">&lt;/refundable&gt;</span>
+            <span class="nt">&lt;today&gt;</span>2019-06-17 13:11:41.427927<span class="nt">&lt;/today&gt;</span>
+            <span class="nt">&lt;new_depart_date&gt;</span>None<span class="nt">&lt;/new_depart_date&gt;</span>
+        <span class="nt">&lt;/resource&gt;</span>
+    <span class="nt">&lt;/data&gt;</span>
+    <span class="nt">&lt;data_length&gt;</span>1<span class="nt">&lt;/data_length&gt;</span>
+<span class="nt">&lt;/response&gt;</span>
+
+</code></pre><h3 id='query-parameters-7'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Example-Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ENV</td>
+<td><code>pp.goibibobusiness.com / www.goibibobusiness.com</code></td>
+<td>pp: test www: production</td>
+</tr>
+<tr>
+<td>bookingId</td>
+<td><code>GOFLDAPIfe6911439890114</code></td>
+<td>Value of bookingrequestid from response of Confirm API.</td>
+</tr>
+</tbody></table>
+<h3 id='reschedule-api-response-parameters-and-structure'>reschedule API Response Parameters And Structure</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total_refund</td>
+<td>Total amount to refund</td>
+</tr>
+<tr>
+<td>total_paid_fare</td>
+<td>ticket fare</td>
+</tr>
+<tr>
+<td>segments</td>
+<td>Onward and return flight details will be available in different list here.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>status of booking</td>
+</tr>
+<tr>
+<td>bookingid</td>
+<td>unique booking id from goibibo</td>
+</tr>
+<tr>
+<td>airlinepnr</td>
+<td>airline PNR Number</td>
+</tr>
+<tr>
+<td>dest_name</td>
+<td>destination</td>
+</tr>
+<tr>
+<td>sourcecode</td>
+<td>source IATA code of airport</td>
+</tr>
+<tr>
+<td>destcode</td>
+<td>destination IATA code</td>
+</tr>
+<tr>
+<td>typeoftravel</td>
+<td>domestic/interantional</td>
+</tr>
+<tr>
+<td>paxs</td>
+<td>key contains passenger details,meal,baggage plan,etc</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
@@ -3222,7 +3932,7 @@ You can cancel a booking only when it is in confirmed status.</p>
 <td>Cannot make this booking</td>
 </tr>
 </tbody></table>
-<h3 id='the-goibibo-cancel_update_v2-api-uses-the-following-error-codes'>The Goibibo cancel_update_v2  API uses the following error codes:</h3>
+<h3 id='the-goibibo-get_status-api-uses-the-following-error-codes'>The Goibibo get_status  API uses the following error codes:</h3>
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -3230,48 +3940,50 @@ You can cancel a booking only when it is in confirmed status.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>138</td>
-<td>Error in cancelltion</td>
+<td>116</td>
+<td>Booking not found</td>
 </tr>
 <tr>
-<td>139</td>
-<td>This is discounted trip. Can&#39;t perform partial cancellation. Provide same passsenger list and reason for both onward and return cancellation</td>
-</tr>
-<tr>
-<td>140</td>
-<td>Invalid passenger details</td>
-</tr>
-<tr>
-<td>141</td>
-<td>Invalid reason</td>
-</tr>
-<tr>
-<td>142</td>
-<td>This is family fare booking. Can&#39;t perform partial cancellation. Select all passengers</td>
-</tr>
-<tr>
-<td>143</td>
-<td>Can&#39;t cancel this booking. Minimum hours check before cancellation failed</td>
-</tr>
-<tr>
-<td>144</td>
-<td>Can&#39;t cancel onward booking. Minimum hours check before cancellation failed</td>
-</tr>
-<tr>
-<td>145</td>
-<td>Can&#39;t cancel return booking. Minimum hours check before cancellation failed</td>
-</tr>
-<tr>
-<td>146</td>
-<td>Your ticket has been cancelled succesfully. Our team will get back to you soon</td>
-</tr>
-<tr>
-<td>148</td>
-<td>Can&#39;t cancel booking of all adults</td>
+<td>128</td>
+<td>Unable to retrieve booking status</td>
 </tr>
 </tbody></table>
-
-<p>149 Not Elligible for cancellation</p>
+<h3 id='the-goibibo-reschedule_info-api-uses-the-following-error-codes'>The Goibibo reschedule_info  API uses the following error codes:</h3>
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>116</td>
+<td>Booking not found</td>
+</tr>
+<tr>
+<td>150</td>
+<td>Error in reschedule</td>
+</tr>
+<tr>
+<td>155</td>
+<td>Not able to calculate reschedule charges and refund</td>
+</tr>
+</tbody></table>
+<h3 id='the-goibibo-cancel_info-api-uses-the-following-error-codes'>The Goibibo cancel_info  API uses the following error codes:</h3>
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>147</td>
+<td>Unable to fetch cancellation information</td>
+</tr>
+<tr>
+<td>149</td>
+<td>Not Elligible for cancellation</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
