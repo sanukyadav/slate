@@ -95,20 +95,35 @@ Error Code | Meaning
 131	| Cannot make this booking
 
 
-
-
-###The Goibibo cancel_update_v2  API uses the following error codes:
+###The Goibibo get_status  API uses the following error codes:
 
 Error Code | Meaning
 ---------- | -------
-138	| Error in cancelltion
-139	| This is discounted trip. Can't perform partial cancellation. Provide same passsenger list and reason for both onward and return cancellation
-140	| Invalid passenger details
-141	| Invalid reason
-142	| This is family fare booking. Can't perform partial cancellation. Select all passengers
-143	| Can't cancel this booking. Minimum hours check before cancellation failed
-144	| Can't cancel onward booking. Minimum hours check before cancellation failed
-145	| Can't cancel return booking. Minimum hours check before cancellation failed
-146	| Your ticket has been cancelled succesfully. Our team will get back to you soon
-148	| Can't cancel booking of all adults
-149	Not Elligible for cancellation
+116	| Booking not found
+128	| Unable to retrieve booking status
+
+
+###The Goibibo reschedule_info  API uses the following error codes:
+
+Error Code | Meaning
+---------- | -------
+116	| Booking not found
+150	| Error in reschedule
+155	| Not able to calculate reschedule charges and refund
+
+
+
+###The Goibibo cancel_info  API uses the following error codes:
+
+Error Code | Meaning
+---------- | -------
+147	| Unable to fetch cancellation information
+149	| Not Elligible for cancellation
+
+
+
+
+
+
+
+
