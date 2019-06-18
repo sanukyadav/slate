@@ -4,7 +4,7 @@
 	Consider error codes given below if you recieve some undesirable results.
 	</aside>
 
-###The Goibibo Flight Search API uses the following error codes:
+##The Goibibo Flight Search API uses the following error codes:
 
 
 Error Code | Meaning
@@ -19,8 +19,9 @@ Error Code | Meaning
 123	| You dont have enough amount in your account to book this flight
 125	| Number of passangers can not be zero
 130	| Schedule unavailable, try again after some time
+132 | Search not working, please try later
 
-###The Goibibo Flight Reprice API uses the following error codes:
+##The Goibibo Flight Reprice API uses the following error codes:
 
 Error Code | Meaning
 ---------- | -------
@@ -48,7 +49,7 @@ Error Code | Meaning
 159	| You are trying to reschedule one way trip. Provide details for one way trip
 
 
-###The Goibibo Flight Book API uses the following error codes:
+##The Goibibo Flight Book API uses the following error codes:
 
 Error-Code | Meaning
 ---------- | -------
@@ -83,7 +84,7 @@ Error-Code | Meaning
 159	| You are trying to reschedule one way trip. Provide details for one way trip
 
 
-###The Goibibo Confirm  API uses the following error codes:
+##The Goibibo Confirm  API uses the following error codes:
 
 Error Code | Meaning
 ---------- | -------
@@ -95,7 +96,7 @@ Error Code | Meaning
 131	| Cannot make this booking
 
 
-###The Goibibo get_status  API uses the following error codes:
+##The Goibibo get_status  API uses the following error codes:
 
 Error Code | Meaning
 ---------- | -------
@@ -103,7 +104,7 @@ Error Code | Meaning
 128	| Unable to retrieve booking status
 
 
-###The Goibibo reschedule_info  API uses the following error codes:
+##The Goibibo reschedule_info  API uses the following error codes:
 
 Error Code | Meaning
 ---------- | -------
@@ -113,7 +114,7 @@ Error Code | Meaning
 
 
 
-###The Goibibo cancel_info  API uses the following error codes:
+##The Goibibo cancel_info  API uses the following error codes:
 
 Error Code | Meaning
 ---------- | -------

@@ -523,6 +523,17 @@ A discounted roundtrip booking will be considered as one segment and this bookin
 Your ticket is not eligible for online rescheduling if it expires in 24 hours. 
 A family fare booking is not eligible for pax rescheduling (you have to reschedule all the passengers at a time). 
 
+**FAQs:**
+
+1. I am getting error: "max limit reached" => Possible Cause: You missed slash at end of api request e.g. pp.goibibobusiness.com/api/reprice instead of pp.goibibobusiness.com/api/reprice/ will give this type of error. 
+2. I am getting error : unicode has no object "get" => Possible Cause: you need to pass list of dictionaries for bookingdata while you are passing simply dictionaries.
+3. I am getting error: Flights not connected => Possible Cause: You forgot to append some onward flights inside the onward or return flights dictionary in case of indirect flights (i.e. flights with stop overs)
+4. I am getting error as : 'NoneType' object has no attribute 'get' => Possbile Cause: You might be searching for one way and giving data for two ways or vice versa.
+5. I am getting "Error": "coercing to Unicode: need string or buffer, int found" => Possible Cause: You are passing integer value where string is expected.E.g. "adults":1 instead of "adults":"1" gives this error.
+6. What are leadcodes and how do I know its possible values? => Leadcodes are insurances you wish to choose. getAllLeads API gives you all available insurances for selected vertical. Now from response of getAllLeads API you can select Ids for the insurance you wish to select for your journey. And give that id surrounded by double quotes as a list (e.g. ["1"] or ["1","2"]) for the value of leadcodes parameter and then you will get total fare inclusive of insurance amount.
+7. I am getting error as : "Error":"0" => Check your bookingdata.You might be passing it as dictionaries while you have to pass it as a list of dictionaries.
+
+
 ### HTTP Request Example
 
 `POST ENV/api/reprice/`
@@ -2186,6 +2197,7 @@ As mentioned before BOOK flight Api Call is to make tenatative booking. This ten
 * email: `email of passenger` 
 * paymentSalt: `payment secret`
 * amountCrypt: crypt amount value
+* `true` String
 * "travelibibo": travelibibo string
 
 
@@ -2292,7 +2304,7 @@ deptime | departure time
 source | IATA Code of source
 carrierid | unique airline id
 airline | name of the airline
-arrtime || arrival time in local GMT of destination.
+arrtime | arrival time in local GMT of destination.
 flightno | flight number
 arrterminal | arrival terminal
 
@@ -2640,7 +2652,7 @@ You can reschedule a booking when it is in confirmed status.
 
 ### HTTP Request Example
 
-`POST ENV/api/v2/reschedule_info/`
+`POST ENV/api/reschedule_info/`
 
 >Sample Response from reschedule api
 
@@ -2832,7 +2844,7 @@ ENV | `pp.goibibobusiness.com / www.goibibobusiness.com` | pp: test www: product
 bookingId | `GOFLDAPIfe6911439890114` | Value of bookingrequestid from response of Confirm API.
 
 
-### reschedule API Response Parameters And Structure
+### reschedule_info API Response Parameters And Structure
 
 Key | Description
 --------- | -----------
