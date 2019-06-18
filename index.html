@@ -934,6 +934,18 @@ Parameter psg_onward ensures onward resheduling, psg_return ensures return resch
 A discounted roundtrip booking will be considered as one segment and this booking is not eligible for segment rescheduling.
 Your ticket is not eligible for online rescheduling if it expires in 24 hours. 
 A family fare booking is not eligible for pax rescheduling (you have to reschedule all the passengers at a time). </p>
+
+<p><strong>FAQs:</strong></p>
+
+<ol>
+<li>I am getting error: &quot;max limit reached&quot; =&gt; Possible Cause: You missed slash at end of api request e.g. pp.goibibobusiness.com/api/reprice instead of pp.goibibobusiness.com/api/reprice/ will give this type of error. </li>
+<li>I am getting error : unicode has no object &quot;get&quot; =&gt; Possible Cause: you need to pass list of dictionaries for bookingdata while you are passing simply dictionaries.</li>
+<li>I am getting error: Flights not connected =&gt; Possible Cause: You forgot to append some onward flights inside the onward or return flights dictionary in case of indirect flights (i.e. flights with stop overs)</li>
+<li>I am getting error as : &#39;NoneType&#39; object has no attribute &#39;get&#39; =&gt; Possbile Cause: You might be searching for one way and giving data for two ways or vice versa.</li>
+<li>I am getting &quot;Error&quot;: &quot;coercing to Unicode: need string or buffer, int found&quot; =&gt; Possible Cause: You are passing integer value where string is expected.E.g. &quot;adults&quot;:1 instead of &quot;adults&quot;:&quot;1&quot; gives this error.</li>
+<li>What are leadcodes and how do I know its possible values? =&gt; Leadcodes are insurances you wish to choose. getAllLeads API gives you all available insurances for selected vertical. Now from response of getAllLeads API you can select Ids for the insurance you wish to select for your journey. And give that id surrounded by double quotes as a list (e.g. [&quot;1&quot;] or [&quot;1&quot;,&quot;2&quot;]) for the value of leadcodes parameter and then you will get total fare inclusive of insurance amount.</li>
+<li>I am getting error as : &quot;Error&quot;:&quot;0&quot; =&gt; Check your bookingdata.You might be passing it as dictionaries while you have to pass it as a list of dictionaries.</li>
+</ol>
 <h3 id='http-request-example-2'>HTTP Request Example</h3>
 <p><code>POST ENV/api/reprice/</code></p>
 
@@ -2799,6 +2811,7 @@ Tentative Book API require a POST HTTP Call. To hit this API user has to provide
 <li>email: <code>email of passenger</code> </li>
 <li>paymentSalt: <code>payment secret</code></li>
 <li>amountCrypt: crypt amount value</li>
+<li><code>true</code> String</li>
 <li>&quot;travelibibo&quot;: travelibibo string</li>
 </ul>
 
@@ -2962,7 +2975,7 @@ Attention— Consider the description given above about creating Hash for book. 
 </tr>
 <tr>
 <td>arrtime</td>
-<td></td>
+<td>arrival time in local GMT of destination.</td>
 </tr>
 <tr>
 <td>flightno</td>
@@ -3386,7 +3399,7 @@ Your ticket is not eligible for online rescheduling if it expires in 24 hours.
 A family fare booking is not eligible for pax rescheduling (you have to reschedule all the passengers at a time). 
 You can reschedule a booking when it is in confirmed status.</p>
 <h3 id='http-request-example-7'>HTTP Request Example</h3>
-<p><code>POST ENV/api/v2/reschedule_info/</code></p>
+<p><code>POST ENV/api/reschedule_info/</code></p>
 
 <blockquote>
 <p>Sample Response from reschedule api</p>
@@ -3584,7 +3597,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 <td>Value of bookingrequestid from response of Confirm API.</td>
 </tr>
 </tbody></table>
-<h3 id='reschedule-api-response-parameters-and-structure'>reschedule API Response Parameters And Structure</h3>
+<h3 id='reschedule_info-api-response-parameters-and-structure'>reschedule_info API Response Parameters And Structure</h3>
 <table><thead>
 <tr>
 <th>Key</th>
@@ -3765,7 +3778,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 <aside class="notice">
     Consider error codes given below if you recieve some undesirable results.
     </aside>
-<h3 id='the-goibibo-flight-search-api-uses-the-following-error-codes'>The Goibibo Flight Search API uses the following error codes:</h3>
+<h2 id='the-goibibo-flight-search-api-uses-the-following-error-codes'>The Goibibo Flight Search API uses the following error codes:</h2>
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -3812,8 +3825,12 @@ You can reschedule a booking when it is in confirmed status.</p>
 <td>130</td>
 <td>Schedule unavailable, try again after some time</td>
 </tr>
+<tr>
+<td>132</td>
+<td>Search not working, please try later</td>
+</tr>
 </tbody></table>
-<h3 id='the-goibibo-flight-reprice-api-uses-the-following-error-codes'>The Goibibo Flight Reprice API uses the following error codes:</h3>
+<h2 id='the-goibibo-flight-reprice-api-uses-the-following-error-codes'>The Goibibo Flight Reprice API uses the following error codes:</h2>
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -3909,7 +3926,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 <td>You are trying to reschedule one way trip. Provide details for one way trip</td>
 </tr>
 </tbody></table>
-<h3 id='the-goibibo-flight-book-api-uses-the-following-error-codes'>The Goibibo Flight Book API uses the following error codes:</h3>
+<h2 id='the-goibibo-flight-book-api-uses-the-following-error-codes'>The Goibibo Flight Book API uses the following error codes:</h2>
 <table><thead>
 <tr>
 <th>Error-Code</th>
@@ -4033,7 +4050,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 <td>You are trying to reschedule one way trip. Provide details for one way trip</td>
 </tr>
 </tbody></table>
-<h3 id='the-goibibo-confirm-api-uses-the-following-error-codes'>The Goibibo Confirm  API uses the following error codes:</h3>
+<h2 id='the-goibibo-confirm-api-uses-the-following-error-codes'>The Goibibo Confirm  API uses the following error codes:</h2>
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -4065,7 +4082,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 <td>Cannot make this booking</td>
 </tr>
 </tbody></table>
-<h3 id='the-goibibo-get_status-api-uses-the-following-error-codes'>The Goibibo get_status  API uses the following error codes:</h3>
+<h2 id='the-goibibo-get_status-api-uses-the-following-error-codes'>The Goibibo get_status  API uses the following error codes:</h2>
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -4081,7 +4098,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 <td>Unable to retrieve booking status</td>
 </tr>
 </tbody></table>
-<h3 id='the-goibibo-reschedule_info-api-uses-the-following-error-codes'>The Goibibo reschedule_info  API uses the following error codes:</h3>
+<h2 id='the-goibibo-reschedule_info-api-uses-the-following-error-codes'>The Goibibo reschedule_info  API uses the following error codes:</h2>
 <table><thead>
 <tr>
 <th>Error Code</th>
@@ -4101,7 +4118,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 <td>Not able to calculate reschedule charges and refund</td>
 </tr>
 </tbody></table>
-<h3 id='the-goibibo-cancel_info-api-uses-the-following-error-codes'>The Goibibo cancel_info  API uses the following error codes:</h3>
+<h2 id='the-goibibo-cancel_info-api-uses-the-following-error-codes'>The Goibibo cancel_info  API uses the following error codes:</h2>
 <table><thead>
 <tr>
 <th>Error Code</th>
