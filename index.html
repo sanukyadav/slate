@@ -960,6 +960,235 @@ A family fare booking is not eligible for pax rescheduling (you have to reschedu
 Reprice API require a POST HTTP Call. To hit this API user has to provide <code>bookingdata</code> <code>querydata</code> <code>fare</code> <code>searchKey_onward</code> in HTTP request Body.
 </aside>
 
+<aside class="success">
+Attention— Consider the description given below about how to create bookingdata list in POST body from flight_search response.
+</aside>
+<h3 id='creating-bookingdata-for-international-trip'>Creating Bookingdata for international trip:</h3>
+<ul>
+<li>Get the flight data response from flight search API.</li>
+<li>If the flight has multi stops, the search api response will be in this structure <code>onwardflights[&quot;.....onwardflights[&quot;.....&quot;].........retunrnfl[&quot;......onwardflights[&quot;.......&quot;]&quot;]&quot;]</code>.Here onwardflight and returnfl are in nested structure. For reprice api this nested structure has to be changed. Bookingdata should be constructed by listing all onwardflight dict as in the same level. </li>
+<li>The re-constructed booking data should not contain empty <code>returnfl</code> keys which can cause <strong>reprice API failure.</strong> To avoid that data from the returnfl and onwardflight can be moved to top level as given in example and the returnfl,onward key can be removed.</li>
+<li><strong>Note:</strong> the re-constructed booking data should contain <code>onwardflights</code> key with empty value.If this key is not present that also can cause <strong>reprice API failure.</strong></li>
+<li>eg: bookingdata: [{onwardflight1},{onwardflight2},{onwardflight3}....,{onwardflight-n}, {returnfl-1},{returnfl-onwwardflight1},{returnfl-onwardflight2},...{returnfl-onwardflight-n}]</li>
+</ul>
+
+<blockquote>
+<p>Example bookingdata for multistop roundtrip flight [Note:<code>returnfl</code> key is removed,<code>onwardflights</code> key is present.]</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[{</span><span class="w">
+  </span><span class="s2">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"rating"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"307"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"farebasis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Q015AP"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"holdflag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"CINFO"</span><span class="p">:</span><span class="w"> </span><span class="s2">"air-DEL-SIN-20190727-20190807-1-0-0-E-100--"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"codeshare"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ibibopartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16h 40m"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"platingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"qtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"307"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CCU"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"FlHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"o6E-307_6E-41o6E-52_6E-2029"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"stops"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"seatsavailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6E"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IndiGo"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"PromotionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"grossamount"</span><span class="p">:</span><span class="w"> </span><span class="mi">26161</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"totalbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">21688</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"adultbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">21688</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">26161</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"totalsurcharge"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"adulttotalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">26161</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"totalcommission"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"CabinClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"warnings"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refundable"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"BookabilityValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.5968084000000005</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ArrivalTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"aircraftType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"320"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"seatingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"E"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"operatingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"internationalsearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"splitduration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2h 10m"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"searchKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:0:0:0:0:21688:0:26161:0:0:0:0:0:0:0:0:26161:21688:26161:0:0:0:0:0:0"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Q"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"SetTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-11 14:46:49"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"DataSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"multicitysearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-27t1800"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20:10"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-27t2010"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"CacheKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DELSIN20190727E6EO"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"TravelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="p">{</span><span class="w">
+      </span><span class="s2">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CCU"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"rating"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"farebasis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Q15INTRT"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"holdflag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"06:05"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"codeshare"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ibibopartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"platingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"41"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SIN"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"FlHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"stops"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"seatsavailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6E"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IndiGo"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"PromotionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"totalsurcharge"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"totalbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"totalcommission"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"CabinClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"warnings"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ArrivalTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"aircraftType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"320"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"operatingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"internationalsearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"splitduration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4h 35m"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Q"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"DataSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"multicitysearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-28t0605"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13:10"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-28t1310"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"TravelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+ </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SIN"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"rating"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"farebasis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LCINT"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"holdflag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"CINFO"</span><span class="p">:</span><span class="w"> </span><span class="s2">"air-DEL-SIN-20190727-20190807-1-0-0-E-100--"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12:20"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"codeshare"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ibibopartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11h 30m"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"platingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"qtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"52"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MAA"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"FlHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6E-52_6E-2029"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"stops"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"seatsavailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"38"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6E"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IndiGo"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"PromotionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"totalsurcharge"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"totalbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"totalcommission"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"CabinClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"warnings"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Refundable"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"BookabilityValue"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.4108362</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ArrivalTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"aircraftType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"320"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"operatingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"internationalsearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"splitduration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4h 10m"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"searchKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"SetTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-11 14:46:49"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"DataSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"multicitysearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-07t1220"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"14:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-07t1400"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"CacheKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SINDEL20190807E6ER"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"TravelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+     </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MAA"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"rating"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"DepartureTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"flightcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"Group"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"farebasis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LCINT"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"depterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"holdflag"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"deptime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18:10"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"codeshare"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"ibibopartner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"duration"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"platingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"qtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"arrterminal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2029"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DEL"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"FlHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"stops"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"seatsavailable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6E"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"airline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IndiGo"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"PromotionId"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"fare"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"totalsurcharge"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"totalfare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"totalbasefare"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"totalcommission"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"CabinClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"warnings"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"ArrivalTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"onwardflights"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+
+          </span><span class="p">],</span><span class="w">
+          </span><span class="s2">"aircraftType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"320"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"operatingcarrier"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"internationalsearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"splitduration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3h 10m"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"DataSource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indigonew"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"multicitysearch"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"depdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-07t1810"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"arrtime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21:20"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"arrdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-07t2120"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"TravelTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+
+</span></code></pre>
 <blockquote>
 <p>The above POST request will give response like this:</p>
 </blockquote>
