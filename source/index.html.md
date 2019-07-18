@@ -547,6 +547,239 @@ A family fare booking is not eligible for pax rescheduling (you have to reschedu
 Reprice API require a POST HTTP Call. To hit this API user has to provide <code>bookingdata</code> <code>querydata</code> <code>fare</code> <code>searchKey_onward</code> in HTTP request Body.
 </aside>
 
+<aside class="success">
+Attention— Consider the description given below about how to create bookingdata list in POST body from flight_search response.
+</aside>
+
+### Creating Bookingdata for international trip:
+
+* Get the flight data response from flight search API.
+* If the flight has multi stops, the search api response will be in this structure `onwardflights[".....onwardflights["....."].........retunrnfl["......onwardflights["......."]"]"]`.Here onwardflight and returnfl are in nested structure. For reprice api this nested structure has to be changed. Bookingdata should be constructed by listing all onwardflight dict as in the same level. 
+* The re-constructed booking data should not contain empty `returnfl` keys which can cause **reprice API failure.** To avoid that data from the returnfl and onwardflight can be moved to top level as given in example and the returnfl,onward key can be removed.
+* **Note:** the re-constructed booking data should contain `onwardflights` key with empty value.If this key is not present that also can cause **reprice API failure.**
+* eg: bookingdata: [{onwardflight1},{onwardflight2},{onwardflight3}....,{onwardflight-n}, {returnfl-1},{returnfl-onwwardflight1},{returnfl-onwardflight2},...{returnfl-onwardflight-n}]
+
+
+>Example bookingdata for multistop roundtrip flight [Note:`returnfl` key is removed,`onwardflights` key is present.]
+
+```json
+[{
+  "origin": "DEL",
+  "rating": 0,
+  "DepartureTime": "",
+  "flightcode": "307",
+  "Group": "",
+  "farebasis": "Q015AP",
+  "depterminal": "1",
+  "holdflag": "",
+  "CINFO": "air-DEL-SIN-20190727-20190807-1-0-0-E-100--",
+  "deptime": "18:00",
+  "codeshare": "",
+  "ibibopartner": "indigonew",
+  "duration": "16h 40m",
+  "platingcarrier": "",
+  "qtype": "",
+  "arrterminal": "-",
+  "flightno": "307",
+  "destination": "CCU",
+  "FlHash": "o6E-307_6E-41o6E-52_6E-2029",
+  "stops": "1",
+  "seatsavailable": "3",
+  "carrierid": "6E",
+  "airline": "IndiGo",
+  "provider": "",
+  "PromotionId": "",
+  "fare": {
+    "grossamount": 26161,
+    "totalbasefare": 21688,
+    "adultbasefare": 21688,
+    "totalfare": 26161,
+    "totalsurcharge": 0,
+    "adulttotalfare": 26161,
+    "totalcommission": ""
+  },
+  "CabinClass": "",
+  "warnings": "Refundable",
+  "BookabilityValue": 4.5968084000000005,
+  "ArrivalTime": "",
+  "onwardflights": [
+  ],
+  "aircraftType": "320",
+  "seatingclass": "E",
+  "operatingcarrier": "",
+  "src": "",
+  "internationalsearch": "true",
+  "splitduration": "2h 10m",
+  "searchKey": "0:0:0:0:0:21688:0:26161:0:0:0:0:0:0:0:0:26161:21688:26161:0:0:0:0:0:0",
+  "bookingclass": "Q",
+  "SetTime": "2019-07-11 14:46:49",
+  "DataSource": "indigonew",
+  "multicitysearch": "",
+  "depdate": "2019-07-27t1800",
+  "arrtime": "20:10",
+  "arrdate": "2019-07-27t2010",
+  "CacheKey": "DELSIN20190727E6EO",
+  "TravelTime": ""
+},
+{
+      "origin": "CCU",
+      "rating": 0,
+      "DepartureTime": "",
+      "flightcode": "",
+      "Group": "",
+      "farebasis": "Q15INTRT",
+      "depterminal": "-",
+      "holdflag": "",
+      "deptime": "06:05",
+      "codeshare": "",
+      "ibibopartner": "indigonew",
+      "duration": "",
+      "platingcarrier": "",
+      "qtype": "",
+      "arrterminal": "2",
+      "flightno": "41",
+      "destination": "SIN",
+      "FlHash": "",
+      "stops": "",
+      "seatsavailable": "7",
+      "carrierid": "6E",
+      "airline": "IndiGo",
+      "provider": "",
+      "PromotionId": "",
+      "fare": {
+        "totalsurcharge": 0,
+        "totalfare": 0,
+        "totalbasefare": 0,
+        "totalcommission": 0
+      },
+      "CabinClass": "",
+      "warnings": "",
+      "ArrivalTime": "",
+      "onwardflights": [
+        
+      ],
+      "aircraftType": "320",
+      "operatingcarrier": "",
+      "src": "",
+      "internationalsearch": "true",
+      "splitduration": "4h 35m",
+      "bookingclass": "Q",
+      "DataSource": "indigonew",
+      "multicitysearch": "",
+      "depdate": "2019-07-28t0605",
+      "arrtime": "13:10",
+      "arrdate": "2019-07-28t1310",
+      "TravelTime": ""
+    },
+ {
+      "origin": "SIN",
+      "rating": 0,
+      "DepartureTime": "",
+      "flightcode": "",
+      "Group": "",
+      "farebasis": "LCINT",
+      "depterminal": "2",
+      "holdflag": "",
+      "CINFO": "air-DEL-SIN-20190727-20190807-1-0-0-E-100--",
+      "deptime": "12:20",
+      "codeshare": "",
+      "ibibopartner": "indigonew",
+      "duration": "11h 30m",
+      "platingcarrier": "",
+      "qtype": "",
+      "arrterminal": "3",
+      "flightno": "52",
+      "destination": "MAA",
+      "FlHash": "6E-52_6E-2029",
+      "stops": "1",
+      "seatsavailable": "38",
+      "carrierid": "6E",
+      "airline": "IndiGo",
+      "provider": "",
+      "PromotionId": "",
+      "fare": {
+        "totalsurcharge": 0,
+        "totalfare": 0,
+        "totalbasefare": 0,
+        "totalcommission": 0
+      },
+      "CabinClass": "",
+      "warnings": "Refundable",
+      "BookabilityValue": 2.4108362,
+      "ArrivalTime": "",
+      "onwardflights": [
+      ],
+      "aircraftType": "320",
+      "operatingcarrier": "",
+      "src": "",
+      "internationalsearch": "true",
+      "splitduration": "4h 10m",
+      "searchKey": "0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0",
+      "bookingclass": "L",
+      "SetTime": "2019-07-11 14:46:49",
+      "DataSource": "indigonew",
+      "multicitysearch": "",
+      "depdate": "2019-08-07t1220",
+      "arrtime": "14:00",
+      "arrdate": "2019-08-07t1400",
+      "CacheKey": "SINDEL20190807E6ER",
+      "TravelTime": ""
+    },
+     {
+          "origin": "MAA",
+          "rating": 0,
+          "DepartureTime": "",
+          "flightcode": "",
+          "Group": "",
+          "farebasis": "LCINT",
+          "depterminal": "1",
+          "holdflag": "",
+          "deptime": "18:10",
+          "codeshare": "",
+          "ibibopartner": "indigonew",
+          "duration": "",
+          "platingcarrier": "",
+          "qtype": "",
+          "arrterminal": "2",
+          "flightno": "2029",
+          "destination": "DEL",
+          "FlHash": "",
+          "stops": "",
+          "seatsavailable": "5",
+          "carrierid": "6E",
+          "airline": "IndiGo",
+          "provider": "",
+          "PromotionId": "",
+          "fare": {
+            "totalsurcharge": 0,
+            "totalfare": 0,
+            "totalbasefare": 0,
+            "totalcommission": 0
+          },
+          "CabinClass": "",
+          "warnings": "",
+          "ArrivalTime": "",
+          "onwardflights": [
+            
+          ],
+          "aircraftType": "320",
+          "operatingcarrier": "",
+          "src": "",
+          "internationalsearch": "true",
+          "splitduration": "3h 10m",
+          "bookingclass": "L",
+          "DataSource": "indigonew",
+          "multicitysearch": "",
+          "depdate": "2019-08-07t1810",
+          "arrtime": "21:20",
+          "arrdate": "2019-08-07t2120",
+          "TravelTime": ""
+        }]
+
+```
+
+
+
 > The above POST request will give response like this:
 
 ```json
