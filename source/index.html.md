@@ -2337,9 +2337,9 @@ Same API can be used to reschedule a booking. Additional two parameters (resched
 
 HTTP request Body mandatory fields:
 
-* bookingdata : `[{"List of dict from search/reprice response"}]`
+* bookingdata : `[{"List of dict from reprice response"}]`
 * querydata : `{"origin": "DEL", "adults": "1", "destination": "BLR", "infants": "0", "depdate": "2019-07-29", "arrdate": "", "children": "0"}`
-* paxinfo : `[{"FirstName": "Test1", "eticketnumber": "", "LastName": "User", "Title": "1", "DateOfBirth": "", "Type": "A"}]`
+* paxinfo : `[{"FirstName": "Test1", "eticketnumber": "", "LastName": "User", "Title": "1", "DateOfBirth": "", "Type": "A", "Passport": "edf6ASDF39993", "DateOfExpiry": "02-09-2022","VisaType": "student","Nationality": "IN"}]`
 * contactinfo: `{"pincode": "110110",     "state": "delhi",    "firstname": "test",     "lastname": "User",     "email": "test.user@test.com",     "landline": "12345678",     "mobile": "",     "payment": "AXIS",    "address": "test","city": "Bangalore" }`
 * fare: `5862`
 * searchKey_return: `0:0:0:0:0:6399:0:7378:0:0:0:0:0:0:0:0:0:6399:7378:0:0:0:0:0:0`
@@ -2404,12 +2404,12 @@ Tentative Book API require a POST HTTP Call. To hit this API user has to provide
 Parameter | Example-Value | Description |
 --------- | --------------| ----------- |
 ENV | pp.goibibobusiness.com / www.goibibobusiness.com | pp: test www: production
-bookingdata |             |Give all keys of flight details for a particular flight chosen from response of Search API, if it contains onward or return flights, that need to be included too. These dictionaries should be provided as a List of dictionaries.One more key carriers is added to bookingdata having value same as carrier-id.
+bookingdata |             |Give all keys of flight details for a particular flight chosen from response of Reprice API, if it contains onward or return flights, that need to be included too. These dictionaries should be provided as a List of dictionaries.One more key carriers is added to bookingdata having value same as carrier-id.
 querydata | {"origin": "del","destination": "blr","depdate": "2016-01-14","adults": "1","infants": "0","children": "0" } | origin,destination,departuredate,number of adults,children and infants should be provided in the form of dictionary as show in default value. Provide one more key "arrdate" if booking is being done for return flights as well.Provide source, destination and passenger details as same as the booking you want to reschedule in case of rescheduling.
 fare | 4567 | totalfare should be provided.In case of return flights, sum of both fares ( onward and return) should be entered.
 searchKey_onward | 0:0:408.0:0:0:9950.0:147.0:11307.0:0:0:0:0:0:0:0:0:11307.0:9950.0:11307.0:0:0.0:0:0:0.0:0:0 | searchKey of onward flights should be entered
 searchKey_return | 0:0:408.0:0:0:9950.0:147.0:11307.0:0:0:0:0:0:0:0:0:11307.0:9950.0:11307.0:0:0.0:0:0:0.0:0:0 | searchKey of return flights should be entered
-paxinfo | [{"FirstName": "test","eticketnumber": "","LastName": "Pandey""Title": "1","DateOfBirth": "","Type":}] | Passenger Info to be passed of each passengers in the form a dictionary having details FirstName,LastName,eticketnumber,Title,DateOfBirth,Type. If more than one passenger is booked, details of each passenger should be provided in a different dictionary and list of dictonaries should be passed as input for paxinfo.Use 1 for MR, 2 for MRS, 3 for MS and 4 for MSTR for title. Provide passanger details as same as the booking you want to reschedule in case of rescheduling.
+paxinfo | [{"FirstName": "Test", "eticketnumber": "", "LastName": "User", "Title": "1", "DateOfBirth": "", "Type": "A", "Passport": "edf6ASDF39993", "DateOfExpiry": "02-09-2022","VisaType": "student","Nationality": "IN"}] | Passenger Info to be passed of each passengers in the form a dictionary having details FirstName,LastName,eticketnumber,Title,DateOfBirth,Type. If more than one passenger is booked, details of each passenger should be provided in a different dictionary and list of dictonaries should be passed as input for paxinfo.Use 1 for MR, 2 for MRS, 3 for MS and 4 for MSTR for title. Provide passanger details as same as the booking you want to reschedule in case of rescheduling. Type can have values -["I","A","C"]. For international trips passport details and nationality params are expected.
 contactinfo | {"pincode":"110110","state":"delhi","firstname":"test","lastname":"Pandey","email":"test@test.com","landline":"12345678","mobile":"","payment":"AXIS","address":"new_address123","city":"Bangalore"} | Contact details for passenger booking flight should be passed including details such as pincode,state,firstname, lastname,email,landline,mobile,payment,address,city in a dictonary. This passenger will be notified in case of any issues.
 reschedule_breakup   |  | This information must be obtained from the response of reprice API. This parameter should be added only in case of reschedule a booking
 faredict |  | This information must be obtained from the response of reprice API. This parameter should be added only in case of reschedule a booking
@@ -2512,7 +2512,11 @@ For booking confirmation of tentatively booked data, the user is required to pas
 Parameter | Example-Value | Description |
 --------- | --------------| ----------- |
 BookingId | `GOFLDAPIfe6911439890114` | The value of customReference from response of Book API
-secret | `041aa022fc447581df851b8a16335bb586f6258b1e1a460e0ff2e9db012bc3d361c95fb9d5308366600a52a61c56be7a796faa02b7504febc9ec83dcd4c2595b` | hash_key to be passed is calculated as follows: 1) we calculate md5str using formula, md5str = pSalt + bookingId + '|'+ str(amount) + '|' + productinfo.lower()+ '|' + firstname.lower() + '|' + email.lower() + '|' + amountCrypt + '|' + "true" + '|' +"travelibibo" Example: "test123GOFLDAPI7b78c1439275195|6937|travel-del-blr-20160106-|amit|amit.prakash@ibibogroup.com|temp|true|travelibibo" here test123 is password used. where psalt is password used and use "temp" for amountCrypt. Rest of details can be found in response of Book api. 2) hash_key= sha512(md5str).hexdigest().Use this hash_key as secret."
+secret | `041aa022fc447581df851b8a16335bb586f6258b1e1a4..` | Note: Secret available in book api is not the requred hash for confirm api. Hash for confirm has to be formed manually.The hash_key to be passed is calculated as follows: 
+
+* we calculate md5str using formula, md5str = pSalt + bookingId + '|' + str(amount) + '|' + productinfo.lower()+ '|' + firstname.lower() + '|' + email.lower() + '|' + amountCrypt + '|' + "true" + '|' +"travelibibo" 
+* Example: "test123GOFLDAPI7b78c1439275195|6937|travel-del-blr-20160106-|amit|amit.prakash@ibibogroup.com|temp|true|travelibibo" here test123 is password used. where psalt is password used and use "temp" for amountCrypt. Rest of details can be found in response of Book api. 
+* hash_key= sha512(md5str).hexdigest().Use this hash_key as secret."
 
 
 
@@ -2544,7 +2548,7 @@ arrterminal | arrival terminal
 
 ## Flight getstatus
 
-The booking status API gives confirmed ticket search results using booking ID/PNR number. It responds with complete booking details of all the passengers, flight details, contact, and booking ID.
+The booking status API gives confirmed ticket search results using booking ID/PNR number. It responds with complete booking details of all the passengers, flight details, contact, and booking ID. For delay ticketing cases the status of booking will be either `manual` or `manual_int` this will update to status `To Deliver` after delay ticketing time.
 
 ### HTTP Request Example
 
@@ -2720,6 +2724,180 @@ default_flavour | api flavour
 
 
 
+## farerules API
+
+This api gives fare rule details for pre-booking stage. Fare rule contains informations about penalties and other fees, General Terms and conditions,etc
+
+
+### HTTP Request Example
+
+`POST ENV/api/farerules/`
+
+
+>Example response of farerules api
+
+```json
+    {
+    "data": {
+        "car": "SG",
+        "terms": {
+            "DEL-BLR": {
+                "Promo Discount": "Any Discount availed against an offer shall be adjusted in final refund amount",
+                "Rescheduling/Change  Penalty*": "Rs. 1500 + Applicable Fare Difference",
+                "Goibibo Service Fee**": "Rs. 200 or Rs. 250",
+                "Service Tax": "For Domestic: 4.94% on Net Airline Charges, For International: 12.36% on Airline Charges",
+                "Ticket Type": "refundable",
+                "Cancellation Penalty*": "Rs. 1500 per person per sector"
+            }
+        },
+        "name": "minirules",
+        "tnc": [
+            "*",
+            "Bookings with 4 or more tickets till 9 passengers in 1 PNR are special family fares and are subject to Cancellation and Change penalty of Rs. 1500 per person per sector if we cancel all passengers in the PNR.",
+            "*The charges are per passenger per sector.",
+            "*The penalty is subject to 4 hrs before departure. No Changes are allowed after that.",
+            "*The charges are per passenger per sector.",
+            "*Rescheduling Charges = Rescheduling/Change Penalty + Fare Difference (if applicable)",
+            "*Partial cancellation of passengers is not allowed on tickets booked under special discounted fares.",
+            "*In case of no-show or ticket not cancelled within the stipulated time, only statutory taxes are refundable subject to Goibibo Service Fee.",
+            "*No Baggage Allowance for Infants",
+            "**Goibibo Service fee will be Rs. 200 in case of online cancellation and Rs. 250 in case of customer-care assisted cancellation",
+            "**Disclaimer: Airline Penalty changes are indicative and can change without prior notice"
+        ]
+    },
+    "data_length": 4
+}
+```
+
+
+### Query Parameters
+
+Parameter | Example-Value | Description |
+--------- | --------------| ----------- |
+ENV | `pp.goibibobusiness.com / www.goibibobusiness.com` | pp: test www: production
+bookingdata | [{'list of flight details dictionary from search response'}] | bookingdata input is basically flight details from search API response.
+querydata | `{"origin": "DEL", "adults": "1", "destination": "BLR","infants": "0", "depdate": "2019-09-10","arrdate":"", "children": "0"}` | querydata contains search query parameters.
+
+### Farerule API Response Parameters And Structure
+
+Key | Description
+--------- | -----------
+car | Airline Carrier Code
+terms | contains sector vise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.
+tnc | contains general tnc 
+
+
+
+## airline_farerules API
+
+This api gives fare rule details for pre-booking stage. airline_farerules api gives details about fare rules which is dynamically fetched from airline vendors.
+
+
+### HTTP Request Example
+
+`POST ENV/api/airline_farerules/`
+
+
+>Example response of airline_farerules api
+
+```json
+   {
+    "data": {
+        "multi": false,
+        "terms": {
+            "BOM-SIN": {
+                "rp": {
+                    "name": "Reschedule Charges",
+                    "value": {
+                        "af": {
+                            "name": "Airline Fee",
+                            "value": "NA"
+                        }
+                    }
+                },
+                "st": "For Domestic: 14% on Net Airline Charges, For International: 14% on Airline Charges",
+                "wr": "Non-Refundable",
+                "pd": "Any Discount availed against an offer shall be adjusted in final refund amount",
+                "cr": "6E",
+                "cp": {
+                    "name": "Cancellation Charges",
+                    "value": {
+                        "af": {
+                            "name": "Airline Fee",
+                            "value": "Non Refundable"
+                        }
+                    }
+                }
+            },
+            "DEL-BOM": {
+                "rp": {
+                    "name": "Reschedule Charges",
+                    "value": {
+                        "af": {
+                            "name": "Airline Fee",
+                            "value": "NA"
+                        }
+                    }
+                },
+                "st": "For Domestic: 14% on Net Airline Charges, For International: 14% on Airline Charges",
+                "wr": "Non-Refundable",
+                "pd": "Any Discount availed against an offer shall be adjusted in final refund amount",
+                "cr": "6E",
+                "cp": {
+                    "name": "Cancellation Charges",
+                    "value": {
+                        "af": {
+                            "name": "Airline Fee",
+                            "value": "Non Refundable"
+                        }
+                    }
+                }
+            }
+        },
+        "name": "minirules",
+        "tnc": [
+            "Airlines stop accepting cancellation/rescheduling requests 24 - 72 hours before departure of the flight, depending on the airline. ",
+            "The rescheduling/cancellation fee may also vary based on fluctuations in currency conversion rates.",
+            "Rescheduling Charges = Rescheduling/Change  Penalty + Fare Difference (if applicable)",
+            "The airline penalty is indicative only and Goibibo does not guarantee the accuracy of this information.",
+            "In case of restricted cases , no amendments /cancellation allowed. ",
+            "Airline penalty needs to be reconfirmed prior to any amendments or cancellation.",
+            "Disclaimer: Airline Penalty changes are indicative and can change without prior notice",
+            "NA means Not Available. Please check with airline for penalty information.",
+            "The charges are per passenger per sector."
+        ],
+        "uuid_data": {
+            "uuid_token": "minirule_dc2b9255-b57e-53e3-bf53-213189a5a520",
+            "timestamp": "2019-08-18 13:28:18.819570"
+        }
+    },
+    "data_length": 5
+}
+}
+```
+
+
+### Query Parameters
+
+Parameter | Example-Value | Description |
+--------- | --------------| ----------- |
+ENV | `pp.goibibobusiness.com / www.goibibobusiness.com` | pp: test www: production
+bookingdata | [{'list of flight details dictionary from search response'}] | bookingdata input is basically flight details from search API response.
+
+### airline_farerules API Response Parameters And Structure
+
+Key | Description
+--------- | -----------
+multi | boolean value indicates multicarrier or not
+car | Airline Carrier Code
+terms | Contains sector vise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.
+tnc | Contains general tnc 
+rp | Reschedule penalty
+af | Airline fee
+wr | Warning
+st | service tax
+cp | cancellation penalty 
+tnc | general terms and conditions
 
 
 ## Flight cancel_info
