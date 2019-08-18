@@ -242,6 +242,12 @@
                     <a href="#flight-getstatus" class="toc-h2 toc-link" data-title="Flight getstatus">Flight getstatus</a>
                   </li>
                   <li>
+                    <a href="#farerules-api" class="toc-h2 toc-link" data-title="farerules API">farerules API</a>
+                  </li>
+                  <li>
+                    <a href="#airline_farerules-api" class="toc-h2 toc-link" data-title="airline_farerules API">airline_farerules API</a>
+                  </li>
+                  <li>
                     <a href="#flight-cancel_info" class="toc-h2 toc-link" data-title="Flight cancel_info">Flight cancel_info</a>
                   </li>
                   <li>
@@ -2911,9 +2917,9 @@ Attention— Consider the description given below about how to create bookingdat
 <p>HTTP request Body mandatory fields:</p>
 
 <ul>
-<li>bookingdata : <code>[{&quot;List of dict from search/reprice response&quot;}]</code></li>
+<li>bookingdata : <code>[{&quot;List of dict from reprice response&quot;}]</code></li>
 <li>querydata : <code>{&quot;origin&quot;: &quot;DEL&quot;, &quot;adults&quot;: &quot;1&quot;, &quot;destination&quot;: &quot;BLR&quot;, &quot;infants&quot;: &quot;0&quot;, &quot;depdate&quot;: &quot;2019-07-29&quot;, &quot;arrdate&quot;: &quot;&quot;, &quot;children&quot;: &quot;0&quot;}</code></li>
-<li>paxinfo : <code>[{&quot;FirstName&quot;: &quot;Test1&quot;, &quot;eticketnumber&quot;: &quot;&quot;, &quot;LastName&quot;: &quot;User&quot;, &quot;Title&quot;: &quot;1&quot;, &quot;DateOfBirth&quot;: &quot;&quot;, &quot;Type&quot;: &quot;A&quot;}]</code></li>
+<li>paxinfo : <code>[{&quot;FirstName&quot;: &quot;Test1&quot;, &quot;eticketnumber&quot;: &quot;&quot;, &quot;LastName&quot;: &quot;User&quot;, &quot;Title&quot;: &quot;1&quot;, &quot;DateOfBirth&quot;: &quot;&quot;, &quot;Type&quot;: &quot;A&quot;, &quot;Passport&quot;: &quot;edf6ASDF39993&quot;, &quot;DateOfExpiry&quot;: &quot;02-09-2022&quot;,&quot;VisaType&quot;: &quot;student&quot;,&quot;Nationality&quot;: &quot;IN&quot;}]</code></li>
 <li>contactinfo: <code>{&quot;pincode&quot;: &quot;110110&quot;,     &quot;state&quot;: &quot;delhi&quot;,    &quot;firstname&quot;: &quot;test&quot;,     &quot;lastname&quot;: &quot;User&quot;,     &quot;email&quot;: &quot;test.user@test.com&quot;,     &quot;landline&quot;: &quot;12345678&quot;,     &quot;mobile&quot;: &quot;&quot;,     &quot;payment&quot;: &quot;AXIS&quot;,    &quot;address&quot;: &quot;test&quot;,&quot;city&quot;: &quot;Bangalore&quot; }</code></li>
 <li>fare: <code>5862</code></li>
 <li>searchKey_return: <code>0:0:0:0:0:6399:0:7378:0:0:0:0:0:0:0:0:0:6399:7378:0:0:0:0:0:0</code></li>
@@ -2983,7 +2989,7 @@ Tentative Book API require a POST HTTP Call. To hit this API user has to provide
 <tr>
 <td>bookingdata</td>
 <td></td>
-<td>Give all keys of flight details for a particular flight chosen from response of Search API, if it contains onward or return flights, that need to be included too. These dictionaries should be provided as a List of dictionaries.One more key carriers is added to bookingdata having value same as carrier-id.</td>
+<td>Give all keys of flight details for a particular flight chosen from response of Reprice API, if it contains onward or return flights, that need to be included too. These dictionaries should be provided as a List of dictionaries.One more key carriers is added to bookingdata having value same as carrier-id.</td>
 </tr>
 <tr>
 <td>querydata</td>
@@ -3007,8 +3013,8 @@ Tentative Book API require a POST HTTP Call. To hit this API user has to provide
 </tr>
 <tr>
 <td>paxinfo</td>
-<td>[{&quot;FirstName&quot;: &quot;test&quot;,&quot;eticketnumber&quot;: &quot;&quot;,&quot;LastName&quot;: &quot;Pandey&quot;&quot;Title&quot;: &quot;1&quot;,&quot;DateOfBirth&quot;: &quot;&quot;,&quot;Type&quot;:}]</td>
-<td>Passenger Info to be passed of each passengers in the form a dictionary having details FirstName,LastName,eticketnumber,Title,DateOfBirth,Type. If more than one passenger is booked, details of each passenger should be provided in a different dictionary and list of dictonaries should be passed as input for paxinfo.Use 1 for MR, 2 for MRS, 3 for MS and 4 for MSTR for title. Provide passanger details as same as the booking you want to reschedule in case of rescheduling.</td>
+<td>[{&quot;FirstName&quot;: &quot;Test&quot;, &quot;eticketnumber&quot;: &quot;&quot;, &quot;LastName&quot;: &quot;User&quot;, &quot;Title&quot;: &quot;1&quot;, &quot;DateOfBirth&quot;: &quot;&quot;, &quot;Type&quot;: &quot;A&quot;, &quot;Passport&quot;: &quot;edf6ASDF39993&quot;, &quot;DateOfExpiry&quot;: &quot;02-09-2022&quot;,&quot;VisaType&quot;: &quot;student&quot;,&quot;Nationality&quot;: &quot;IN&quot;}]</td>
+<td>Passenger Info to be passed of each passengers in the form a dictionary having details FirstName,LastName,eticketnumber,Title,DateOfBirth,Type. If more than one passenger is booked, details of each passenger should be provided in a different dictionary and list of dictonaries should be passed as input for paxinfo.Use 1 for MR, 2 for MRS, 3 for MS and 4 for MSTR for title. Provide passanger details as same as the booking you want to reschedule in case of rescheduling. Type can have values -[&quot;I&quot;,&quot;A&quot;,&quot;C&quot;]. For international trips passport details and nationality params are expected.</td>
 </tr>
 <tr>
 <td>contactinfo</td>
@@ -3141,10 +3147,16 @@ Attention— Consider the description given above about creating Hash for book. 
 </tr>
 <tr>
 <td>secret</td>
-<td><code>041aa022fc447581df851b8a16335bb586f6258b1e1a460e0ff2e9db012bc3d361c95fb9d5308366600a52a61c56be7a796faa02b7504febc9ec83dcd4c2595b</code></td>
-<td>hash_key to be passed is calculated as follows: 1) we calculate md5str using formula, md5str = pSalt + bookingId + &#39;</td>
+<td><code>041aa022fc447581df851b8a16335bb586f6258b1e1a4..</code></td>
+<td>Note: Secret available in book api is not the requred hash for confirm api. Hash for confirm has to be formed manually.The hash_key to be passed is calculated as follows:</td>
 </tr>
 </tbody></table>
+
+<ul>
+<li>we calculate md5str using formula, md5str = pSalt + bookingId + &#39;|&#39; + str(amount) + &#39;|&#39; + productinfo.lower()+ &#39;|&#39; + firstname.lower() + &#39;|&#39; + email.lower() + &#39;|&#39; + amountCrypt + &#39;|&#39; + &quot;true&quot; + &#39;|&#39; +&quot;travelibibo&quot; </li>
+<li>Example: &quot;test123GOFLDAPI7b78c1439275195|6937|travel-del-blr-20160106-|amit|amit.prakash@ibibogroup.com|temp|true|travelibibo&quot; here test123 is password used. where psalt is password used and use &quot;temp&quot; for amountCrypt. Rest of details can be found in response of Book api. </li>
+<li>hash_key= sha512(md5str).hexdigest().Use this hash_key as secret.&quot;</li>
+</ul>
 <h3 id='confirm-api-response-parameters-and-structure'>Confirm API Response Parameters And Structure</h3>
 <p>A Success 200 response from confirm api indicates that your flight booking is successfully completed.You will get the response as given above.</p>
 
@@ -3216,7 +3228,7 @@ Attention— Consider the description given above about creating Hash for book. 
 </tr>
 </tbody></table>
 <h2 id='flight-getstatus'>Flight getstatus</h2>
-<p>The booking status API gives confirmed ticket search results using booking ID/PNR number. It responds with complete booking details of all the passengers, flight details, contact, and booking ID.</p>
+<p>The booking status API gives confirmed ticket search results using booking ID/PNR number. It responds with complete booking details of all the passengers, flight details, contact, and booking ID. For delay ticketing cases the status of booking will be either <code>manual</code> or <code>manual_int</code> this will update to status <code>To Deliver</code> after delay ticketing time.</p>
 <h3 id='http-request-example-5'>HTTP Request Example</h3>
 <p><code>POST ENV/api/getstatus/</code></p>
 
@@ -3427,6 +3439,236 @@ Attention— Consider the description given above about creating Hash for book. 
 <td>api flavour</td>
 </tr>
 </tbody></table>
+<h2 id='farerules-api'>farerules API</h2>
+<p>This api gives fare rule details for pre-booking stage. Fare rule contains informations about penalties and other fees, General Terms and conditions,etc</p>
+<h3 id='http-request-example-6'>HTTP Request Example</h3>
+<p><code>POST ENV/api/farerules/</code></p>
+
+<blockquote>
+<p>Example response of farerules api</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">    </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"car"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SG"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"terms"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"DEL-BLR"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"Promo Discount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Any Discount availed against an offer shall be adjusted in final refund amount"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Rescheduling/Change  Penalty*"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rs. 1500 + Applicable Fare Difference"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Goibibo Service Fee**"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rs. 200 or Rs. 250"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Service Tax"</span><span class="p">:</span><span class="w"> </span><span class="s2">"For Domestic: 4.94% on Net Airline Charges, For International: 12.36% on Airline Charges"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Ticket Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refundable"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"Cancellation Penalty*"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rs. 1500 per person per sector"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minirules"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tnc"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Bookings with 4 or more tickets till 9 passengers in 1 PNR are special family fares and are subject to Cancellation and Change penalty of Rs. 1500 per person per sector if we cancel all passengers in the PNR."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*The charges are per passenger per sector."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*The penalty is subject to 4 hrs before departure. No Changes are allowed after that."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*The charges are per passenger per sector."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*Rescheduling Charges = Rescheduling/Change Penalty + Fare Difference (if applicable)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*Partial cancellation of passengers is not allowed on tickets booked under special discounted fares."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*In case of no-show or ticket not cancelled within the stipulated time, only statutory taxes are refundable subject to Goibibo Service Fee."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"*No Baggage Allowance for Infants"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"**Goibibo Service fee will be Rs. 200 in case of online cancellation and Rs. 250 in case of customer-care assisted cancellation"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"**Disclaimer: Airline Penalty changes are indicative and can change without prior notice"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters-6'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Example-Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ENV</td>
+<td><code>pp.goibibobusiness.com / www.goibibobusiness.com</code></td>
+<td>pp: test www: production</td>
+</tr>
+<tr>
+<td>bookingdata</td>
+<td>[{&#39;list of flight details dictionary from search response&#39;}]</td>
+<td>bookingdata input is basically flight details from search API response.</td>
+</tr>
+<tr>
+<td>querydata</td>
+<td><code>{&quot;origin&quot;: &quot;DEL&quot;, &quot;adults&quot;: &quot;1&quot;, &quot;destination&quot;: &quot;BLR&quot;,&quot;infants&quot;: &quot;0&quot;, &quot;depdate&quot;: &quot;2019-09-10&quot;,&quot;arrdate&quot;:&quot;&quot;, &quot;children&quot;: &quot;0&quot;}</code></td>
+<td>querydata contains search query parameters.</td>
+</tr>
+</tbody></table>
+<h3 id='farerule-api-response-parameters-and-structure'>Farerule API Response Parameters And Structure</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>car</td>
+<td>Airline Carrier Code</td>
+</tr>
+<tr>
+<td>terms</td>
+<td>contains sector vise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.</td>
+</tr>
+<tr>
+<td>tnc</td>
+<td>contains general tnc</td>
+</tr>
+</tbody></table>
+<h2 id='airline_farerules-api'>airline_farerules API</h2>
+<p>This api gives fare rule details for pre-booking stage. airline_farerules api gives details about fare rules which is dynamically fetched from airline vendors.</p>
+<h3 id='http-request-example-7'>HTTP Request Example</h3>
+<p><code>POST ENV/api/airline_farerules/</code></p>
+
+<blockquote>
+<p>Example response of airline_farerules api</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">   </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"multi"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"terms"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"BOM-SIN"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"rp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Reschedule Charges"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"af"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Airline Fee"</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="w">
+                        </span><span class="p">}</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"st"</span><span class="p">:</span><span class="w"> </span><span class="s2">"For Domestic: 14% on Net Airline Charges, For International: 14% on Airline Charges"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"wr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Non-Refundable"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"pd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Any Discount availed against an offer shall be adjusted in final refund amount"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"cr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6E"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"cp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cancellation Charges"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"af"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Airline Fee"</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Non Refundable"</span><span class="w">
+                        </span><span class="p">}</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"DEL-BOM"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"rp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Reschedule Charges"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"af"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Airline Fee"</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NA"</span><span class="w">
+                        </span><span class="p">}</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"st"</span><span class="p">:</span><span class="w"> </span><span class="s2">"For Domestic: 14% on Net Airline Charges, For International: 14% on Airline Charges"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"wr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Non-Refundable"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"pd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Any Discount availed against an offer shall be adjusted in final refund amount"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"cr"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6E"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"cp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cancellation Charges"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"af"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Airline Fee"</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Non Refundable"</span><span class="w">
+                        </span><span class="p">}</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minirules"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tnc"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"Airlines stop accepting cancellation/rescheduling requests 24 - 72 hours before departure of the flight, depending on the airline. "</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"The rescheduling/cancellation fee may also vary based on fluctuations in currency conversion rates."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Rescheduling Charges = Rescheduling/Change  Penalty + Fare Difference (if applicable)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"The airline penalty is indicative only and Goibibo does not guarantee the accuracy of this information."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"In case of restricted cases , no amendments /cancellation allowed. "</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Airline penalty needs to be reconfirmed prior to any amendments or cancellation."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Disclaimer: Airline Penalty changes are indicative and can change without prior notice"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"NA means Not Available. Please check with airline for penalty information."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"The charges are per passenger per sector."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"uuid_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"uuid_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minirule_dc2b9255-b57e-53e3-bf53-213189a5a520"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-18 13:28:18.819570"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters-7'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Example-Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ENV</td>
+<td><code>pp.goibibobusiness.com / www.goibibobusiness.com</code></td>
+<td>pp: test www: production</td>
+</tr>
+<tr>
+<td>bookingdata</td>
+<td>[{&#39;list of flight details dictionary from search response&#39;}]</td>
+<td>bookingdata input is basically flight details from search API response.</td>
+</tr>
+</tbody></table>
+<h3 id='airline_farerules-api-response-parameters-and-structure'>airline_farerules API Response Parameters And Structure</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>multi</td>
+<td>boolean value indicates multicarrier or not</td>
+</tr>
+<tr>
+<td>car</td>
+<td>Airline Carrier Code</td>
+</tr>
+<tr>
+<td>terms</td>
+<td>Contains sector vise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.</td>
+</tr>
+<tr>
+<td>tnc</td>
+<td>Contains general tnc</td>
+</tr>
+<tr>
+<td>rp</td>
+<td>Reschedule penalty</td>
+</tr>
+<tr>
+<td>af</td>
+<td>Airline fee</td>
+</tr>
+<tr>
+<td>wr</td>
+<td>Warning</td>
+</tr>
+<tr>
+<td>st</td>
+<td>service tax</td>
+</tr>
+<tr>
+<td>cp</td>
+<td>cancellation penalty</td>
+</tr>
+<tr>
+<td>tnc</td>
+<td>general terms and conditions</td>
+</tr>
+</tbody></table>
 <h2 id='flight-cancel_info'>Flight cancel_info</h2>
 <p>This api shows booking details, cancellation charges and refund amount of onward and return segment for a booking you have mentioned.
 A discounted roundtrip booking will be considered as one segment and this booking is not eligible for segment cancellation.
@@ -3434,7 +3676,7 @@ A family fare booking is not eligible for pax cancellation. You have to cancel a
 Your ticket is not eligible for online cancellation if it expires in 4 hours. 
 If there is some error in calculating airline charges, this API will not return cancellation charges and refund amount.
 You can cancel a booking only when it is in confirmed status. If booking is already cancelled or flown, it shows empty response.</p>
-<h3 id='http-request-example-6'>HTTP Request Example</h3>
+<h3 id='http-request-example-8'>HTTP Request Example</h3>
 <p><code>POST ENV/api/v2/cancel_info/</code></p>
 
 <blockquote>
@@ -3542,7 +3784,7 @@ You can cancel a booking only when it is in confirmed status. If booking is alre
     <span class="nt">&lt;data_length&gt;</span>2<span class="nt">&lt;/data_length&gt;</span>
 <span class="nt">&lt;/response&gt;</span>
 
-</code></pre><h3 id='query-parameters-6'>Query Parameters</h3>
+</code></pre><h3 id='query-parameters-8'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -3627,7 +3869,7 @@ A discounted roundtrip booking will be considered as one segment and this bookin
 Your ticket is not eligible for online rescheduling if it expires in 24 hours. 
 A family fare booking is not eligible for pax rescheduling (you have to reschedule all the passengers at a time). 
 You can reschedule a booking when it is in confirmed status.</p>
-<h3 id='http-request-example-7'>HTTP Request Example</h3>
+<h3 id='http-request-example-9'>HTTP Request Example</h3>
 <p><code>POST ENV/api/reschedule_info/</code></p>
 
 <blockquote>
@@ -3807,7 +4049,7 @@ You can reschedule a booking when it is in confirmed status.</p>
     <span class="nt">&lt;data_length&gt;</span>1<span class="nt">&lt;/data_length&gt;</span>
 <span class="nt">&lt;/response&gt;</span>
 
-</code></pre><h3 id='query-parameters-7'>Query Parameters</h3>
+</code></pre><h3 id='query-parameters-9'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -3880,7 +4122,7 @@ You can reschedule a booking when it is in confirmed status.</p>
 </tbody></table>
 <h2 id='flight-farerules'>Flight farerules</h2>
 <p>This API gives the farerules details. Terms and conditions can be vary sector or airline wise.</p>
-<h3 id='http-request-example-8'>HTTP Request Example</h3>
+<h3 id='http-request-example-10'>HTTP Request Example</h3>
 <p><code>POST ENV/api/farerules/</code></p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -3943,7 +4185,7 @@ You can reschedule a booking when it is in confirmed status.</p>
     <span class="nt">&lt;/data&gt;</span>
     <span class="nt">&lt;data_length&gt;</span>4<span class="nt">&lt;/data_length&gt;</span>
 <span class="nt">&lt;/response&gt;</span>
-</code></pre><h3 id='query-parameters-8'>Query Parameters</h3>
+</code></pre><h3 id='query-parameters-10'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
