@@ -2783,7 +2783,7 @@ querydata | `{"origin": "DEL", "adults": "1", "destination": "BLR","infants": "0
 Key | Description
 --------- | -----------
 car | Airline Carrier Code
-terms | contains sector vise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.
+terms | contains sector wise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.
 tnc | contains general tnc 
 
 
@@ -2890,7 +2890,7 @@ Key | Description
 --------- | -----------
 multi | boolean value indicates multicarrier or not
 car | Airline Carrier Code
-terms | Contains sector vise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.
+terms | Contains sector wise terms and details like Ticket type, cancellation penalty,service fee,Promo discount,reschedule fee,etc. Terms are valid for respective sectors. If it is round trip, terms will be available for onward as well as return sectors.
 tnc | Contains general tnc 
 rp | Reschedule penalty
 af | Airline fee
@@ -3377,7 +3377,7 @@ tnc | General mini rules will be available here.
 
 ## Flight get_baggage_data
 
-This API gives the sector vise baggage data terms and tnc.
+This API gives the sector wise baggage data terms and tnc.
 
 ### HTTP Request Example
 
