@@ -3371,4 +3371,71 @@ tnc | General mini rules will be available here.
 
 
 
+================
 
+
+
+## Flight get_baggage_data
+
+This API gives the sector vise baggage data terms and tnc.
+
+### HTTP Request Example
+
+`POST ENV/api/get_baggage_data/`
+
+```json
+{
+    "data": {
+        "DEL-KNU": {
+            "terms": [
+                {
+                    "bt": {
+                        "name": "Baggage Type",
+                        "value": "Adult"
+                    },
+                    "cb": {
+                        "name": "Check-In",
+                        "value": "20 Kgs"
+                    },
+                    "hb": {
+                        "name": "Cabin",
+                        "value": "7 Kgs"
+                    }
+                }
+            ],
+            "carrierid": "SG",
+            "bookingclass": "E",
+            "tnc": [
+                "The baggage information is just for reference. Please check with the airline before check-in. For more information, visit Spicejet Website."
+            ],
+            "seatingclass": "E",
+            "flightno": "2745"
+        }
+    },
+    "data_length": 1
+}
+```
+
+
+
+### Query Parameters
+
+Parameter | Example-Value | Description |
+--------- | --------------| ----------- |
+ENV | `pp.goibibobusiness.com / www.goibibobusiness.com` | pp: test www: production
+bookingdata | `[{[{"origin":"DEL",...}]` | Booking data has to provide as a post body parameter.
+querydata | `{"arrdate": "2020-05-31","depdate":"2020-05-31","origin": "DEL","destination": "KNU","adults": "1","children": "0","infants": "0","seatingclass": "E"}` | querydata with all relevent is required.
+
+
+### get_baggage_data API Parameters And Structure
+
+Key | Description
+--------- | -----------
+terms | terms given inside sector
+bt    | Baggae type
+cb    | Chcekin Baggage
+hb    | Hand Baggage
+carrierid   | IATA carrier id 
+bookingclass | E, B,etc
+tnc | Brief terms and condition
+seatingclass | passenger seating class E,B,etc
