@@ -256,6 +256,9 @@
                   <li>
                     <a href="#flight-farerules" class="toc-h2 toc-link" data-title="Flight farerules">Flight farerules</a>
                   </li>
+                  <li>
+                    <a href="#flight-get_baggage_data" class="toc-h2 toc-link" data-title="Flight get_baggage_data">Flight get_baggage_data</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -4243,6 +4246,106 @@ You can reschedule a booking when it is in confirmed status.</p>
 <tr>
 <td>tnc</td>
 <td>General mini rules will be available here.</td>
+</tr>
+</tbody></table>
+
+<p>================</p>
+<h2 id='flight-get_baggage_data'>Flight get_baggage_data</h2>
+<p>This API gives the sector vise baggage data terms and tnc.</p>
+<h3 id='http-request-example-11'>HTTP Request Example</h3>
+<p><code>POST ENV/api/get_baggage_data/</code></p>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"DEL-KNU"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"terms"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"bt"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Baggage Type"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Adult"</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="s2">"cb"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Check-In"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"20 Kgs"</span><span class="w">
+                    </span><span class="p">},</span><span class="w">
+                    </span><span class="s2">"hb"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cabin"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7 Kgs"</span><span class="w">
+                    </span><span class="p">}</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="s2">"carrierid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SG"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"bookingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"E"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tnc"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"The baggage information is just for reference. Please check with the airline before check-in. For more information, visit Spicejet Website."</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="s2">"seatingclass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"E"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"flightno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2745"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"data_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters-11'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Example-Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ENV</td>
+<td><code>pp.goibibobusiness.com / www.goibibobusiness.com</code></td>
+<td>pp: test www: production</td>
+</tr>
+<tr>
+<td>bookingdata</td>
+<td><code>[{[{&quot;origin&quot;:&quot;DEL&quot;,...}]</code></td>
+<td>Booking data has to provide as a post body parameter.</td>
+</tr>
+<tr>
+<td>querydata</td>
+<td><code>{&quot;arrdate&quot;: &quot;2020-05-31&quot;,&quot;depdate&quot;:&quot;2020-05-31&quot;,&quot;origin&quot;: &quot;DEL&quot;,&quot;destination&quot;: &quot;KNU&quot;,&quot;adults&quot;: &quot;1&quot;,&quot;children&quot;: &quot;0&quot;,&quot;infants&quot;: &quot;0&quot;,&quot;seatingclass&quot;: &quot;E&quot;}</code></td>
+<td>querydata with all relevent is required.</td>
+</tr>
+</tbody></table>
+<h3 id='get_baggage_data-api-parameters-and-structure'>get_baggage_data API Parameters And Structure</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>terms</td>
+<td>terms given inside sector</td>
+</tr>
+<tr>
+<td>bt</td>
+<td>Baggae type</td>
+</tr>
+<tr>
+<td>cb</td>
+<td>Chcekin Baggage</td>
+</tr>
+<tr>
+<td>hb</td>
+<td>Hand Baggage</td>
+</tr>
+<tr>
+<td>carrierid</td>
+<td>IATA carrier id</td>
+</tr>
+<tr>
+<td>bookingclass</td>
+<td>E, B,etc</td>
+</tr>
+<tr>
+<td>tnc</td>
+<td>Brief terms and condition</td>
+</tr>
+<tr>
+<td>seatingclass</td>
+<td>passenger seating class E,B,etc</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
